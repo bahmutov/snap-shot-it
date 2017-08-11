@@ -30,3 +30,11 @@ describe('spec file', () => {
     })
   })
 })
+
+describe('example', () => {
+  it('works', () => {
+    snapshot(add(10, 20))
+    snapshot('a text message')
+    return Promise.resolve(42).then(snapshot)
+  })
+})

@@ -8,15 +8,71 @@
 [![semantic-release][semantic-image] ][semantic-url]
 [![js-standard-style][standard-image]][standard-url]
 
+## Why
+
+This tool makes [snapshot testing][snapshot testing] for Mocha (and other BDD)
+frameworks quick and painless.
+
+[snapshot testing]: https://glebbahmutov.com/blog/snapshot-testing/
+
 ## Install
 
-Requires [Node](https://nodejs.org/en/) version 6 or above.
+Requires [Node](https://nodejs.org/en/) version 4 or above.
 
 ```sh
-npm install --save snap-shot-it
+npm install --save-dev snap-shot-it
 ```
 
 ## Use
+
+```js
+// spec.js
+const snapshot = require('snap-shot-it')
+describe('example', () => {
+  it('works', () => {
+    snapshot(add(10, 20))
+    snapshot('a text message')
+    return Promise.resolve(42).then(snapshot)
+  })
+})
+```
+
+Run Mocha tests, then open the created `__snapshots__/spec.js` file
+
+```js
+// __snapshots__/spec.js
+exports['example works 1'] = 30
+
+exports['example works 2'] = "a text message"
+
+exports['example works 3'] = 42
+```
+
+## Advanced use
+
+You can see the saves snapshot values by running with environment variable
+
+```bash
+SHOW=1 npm test
+```
+
+You can see snapshot values without writing them into the snapshot file
+
+```bash
+DRY=1 npm test
+```
+
+You can update snapshot values
+
+```bash
+UPDATE=1 npm test
+```
+
+## Debugging
+
+Run with environment variable `DEBUG=snap-shot-it ...` to see log messages.
+Because under the hood it uses [snap-shot-core][snap-shot-core] you might
+want to show messages from both libraries with `DEBUG=snap-shot* ...`
 
 ### Small print
 

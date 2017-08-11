@@ -14,3 +14,9 @@ exports['spec file supports promises 1'] = 42
 
 exports['spec file inner tests works in nested describes 1'] = "foo"
 
+exports['example works 1'] = 30
+
+exports['example works 2'] = "a text message"
+
+exports['example works 3'] = 42
+
