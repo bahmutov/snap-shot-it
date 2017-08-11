@@ -1,6 +1,4 @@
 'use strict'
 
-
-// eslint-disable-next-line immutable/no-mutation 
+// eslint-disable-next-line immutable/no-mutation
 module.exports = true
-
