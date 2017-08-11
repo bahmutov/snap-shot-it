@@ -11,9 +11,12 @@
 ## Why
 
 This tool makes [snapshot testing][snapshot testing] for Mocha (and other BDD)
-frameworks quick and painless.
+frameworks quick and painless. This module spies on global `it` function,
+which allows it to accurately get test information (beating static code parsing
+done in [snap-shot][snap-shot]); it should work in transpiled code.
 
 [snapshot testing]: https://glebbahmutov.com/blog/snapshot-testing/
+[snap-shot]: https://github.com/bahmutov/snap-shot
 
 ## Install
 
