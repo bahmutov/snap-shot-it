@@ -4,6 +4,12 @@ const debug = require('debug')('snap-shot-it')
 const core = require('snap-shot-core')
 const oldIt = global.it
 
+if (typeof oldIt !== 'function') {
+  throw new Error(
+    'Cannot find global "it" function, is it BDD runner like Mocha?'
+  )
+}
+
 let currentTest // eslint-disable-line immutable/no-let
 
 function spyIt (title, fn) {
