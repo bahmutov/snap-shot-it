@@ -25,8 +25,9 @@ npm install --save-dev snap-shot-it
 
 ## Use
 
+Example from [spec.js](src/spec.js)
+
 ```js
-// spec.js
 const snapshot = require('snap-shot-it')
 describe('example', () => {
   it('works', () => {
@@ -37,16 +38,39 @@ describe('example', () => {
 })
 ```
 
-Run Mocha tests, then open the created `__snapshots__/spec.js` file
+Run Mocha tests, then open the created
+[__snapshots__/spec.js](__snapshots__/spec.js) file
 
 ```js
-// __snapshots__/spec.js
 exports['example works 1'] = 30
 
 exports['example works 2'] = "a text message"
 
 exports['example works 3'] = 42
 ```
+
+Suppose you change the resolved value from `42` to `80`
+
+```js
+const snapshot = require('snap-shot-it')
+describe('example', () => {
+  it('works', () => {
+    snapshot(add(10, 20))
+    snapshot('a text message')
+    return Promise.resolve(80).then(snapshot)
+  })
+})
+```
+
+The test will fail
+
+```
+1) example works:
+   Error: 42 !== 80
+```
+
+The error message should intelligently handle numbers, objects, arrays,
+multi-line text, etc.
 
 ## Advanced use
 
