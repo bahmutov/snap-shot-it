@@ -25,6 +25,9 @@ function spyIt (title, fn) {
   })
 }
 
+// eslint-disable-next-line immutable/no-mutation
+spyIt.only = oldIt.only
+
 function snapshot (value) {
   if (!currentTest) {
     throw new Error('Missing current test, cannot make snapshot')
