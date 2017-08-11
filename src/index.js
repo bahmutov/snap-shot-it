@@ -6,17 +6,13 @@ const oldIt = global.it
 
 let currentTest // eslint-disable-line immutable/no-let
 
-function checkArguments (title, fn) {
-  if (arguments.length !== 2) {
-    throw new Error('Expectex "it" to be called with name and callback')
-  }
-}
-
 function spyIt (title, fn) {
-  checkArguments.apply(null, arguments)
+  if (typeof title === 'string' && !fn) {
+    debug('skipping test "%s"', title)
+    return oldIt(title)
+  }
 
   debug('spyIt on "%s"', title)
-
   return oldIt(title, function () {
     currentTest = this.test // eslint-disable-line immutable/no-this
     debug('before test "%s"', currentTest.fullTitle())
@@ -24,9 +20,6 @@ function spyIt (title, fn) {
     // could also do something after the test function executes
   })
 }
-
-// eslint-disable-next-line immutable/no-mutation
-spyIt.only = oldIt.only
 
 function snapshot (value) {
   if (!currentTest) {
@@ -46,7 +39,9 @@ function snapshot (value) {
   return core(options)
 }
 
-// eslint-disable-next-line immutable/no-mutation
+/* eslint-disable immutable/no-mutation */
+spyIt.only = oldIt.only
+spyIt.skip = oldIt.skip
 global.it = spyIt
-// eslint-disable-next-line immutable/no-mutation
 module.exports = snapshot
+/* eslint-enable immutable/no-mutation */
