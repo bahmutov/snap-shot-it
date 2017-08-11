@@ -16,7 +16,6 @@ which allows it to accurately get test information (beating static code parsing
 done in [snap-shot][snap-shot]); it should work in transpiled code.
 
 [snapshot testing]: https://glebbahmutov.com/blog/snapshot-testing/
-[snap-shot]: https://github.com/bahmutov/snap-shot
 
 ## Install
 
@@ -100,6 +99,18 @@ UPDATE=1 npm test
 Run with environment variable `DEBUG=snap-shot-it ...` to see log messages.
 Because under the hood it uses [snap-shot-core][snap-shot-core] you might
 want to show messages from both libraries with `DEBUG=snap-shot* ...`
+
+## Inspiration
+
+Came during WorkBar Cambridge Happy Hour on the terrace as I was thinking about
+difficulty of adding CoffeeScript / TypeScript support to
+[snap-shot][snap-shot] project. Got the idea of overriding `global.it` when
+loading `snap-shot` because a day before I wrote [repeat-it][repeat-it]
+which overrides it and it is very simple [repeat/src/index.js][repeat source].
+
+[snap-shot]: https://github.com/bahmutov/snap-shot
+[repeat-it]: https://github.com/bahmutov/repeat-it
+[repeat source]: https://github.com/bahmutov/repeat-it/blob/master/src/index.js
 
 ### Small print
 
