@@ -6,6 +6,6 @@ describe "CoffeeScript with snapshots", ->
     snapshot("foo")
     snapshot(
       foo: "foo"
-      bar: "bar2"
+      bar: "bar"
     )
     Promise.resolve('a promise').then(snapshot)

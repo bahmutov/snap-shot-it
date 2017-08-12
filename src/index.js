@@ -41,13 +41,20 @@ function snapshot (value) {
   debug('from file "%s"', currentTest.file)
   debug('snapshot value %j', value)
 
-  const options = {
+  const opts = {
+    show: Boolean(process.env.SHOW),
+    dryRun: Boolean(process.env.DRY),
+    update: Boolean(process.env.UPDATE),
+    ci: Boolean(process.env.CI)
+  }
+  const snap = {
     what: value,
     file: currentTest.file,
     specName: currentTest.fullTitle(),
-    ext: null
+    ext: null,
+    opts
   }
-  return core(options)
+  return core(snap)
 }
 
 /* eslint-disable immutable/no-mutation */
