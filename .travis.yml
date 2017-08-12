@@ -8,6 +8,11 @@ node_js:
   - '6'
 before_script:
   - npm prune
+script:
+  - npm test
+  - DEBUG=snap-shot-it npm run test-two-specs
+  - cd ts-demo; npm it
+  - cd coffee-demo; npm it
 after_success:
   - npm run semantic-release
 branches:

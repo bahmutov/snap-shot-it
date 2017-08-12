@@ -11,6 +11,9 @@
         "npm prune",
         "npm run deps",
         "npm test",
+        "npm run test-two-specs",
+        "cd ts-demo; npm it",
+        "cd coffee-demo; npm it",
         "git add src/*.js",
         "npm run ban"
       ],
@@ -79,7 +82,8 @@
     "test": "npm run unit",
     "unit": "mocha src/*spec.js",
     "watch": "npm run unit -- --watch",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "test-two-specs": "mocha test/two-specs"
   },
   "release": {
     "analyzeCommits": "simple-commit-message",
