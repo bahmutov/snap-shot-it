@@ -8,3 +8,4 @@ describe "CoffeeScript with snapshots", ->
       foo: "foo"
       bar: "bar2"
     )
+    Promise.resolve('a promise').then(snapshot)

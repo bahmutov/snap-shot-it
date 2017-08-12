@@ -7,3 +7,5 @@ exports['CoffeeScript with snapshots works 3'] = {
   "bar": "bar2"
 }
 
+exports['CoffeeScript with snapshots works 4'] = "a promise"
+

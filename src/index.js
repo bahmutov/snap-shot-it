@@ -56,3 +56,11 @@ spyIt.skip = oldIt.skip
 global.it = spyIt
 module.exports = snapshot
 /* eslint-enable immutable/no-mutation */
+
+function deleteFromCache () {
+  // to work with transpiled code, need to force
+  // re-evaluating this module again on watch
+  debug('deleting snap-shot-it from cache')
+  delete require.cache[__filename]
+}
+global.after(deleteFromCache)
