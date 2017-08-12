@@ -78,6 +78,7 @@
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "test": "npm run unit",
     "unit": "mocha src/*spec.js",
+    "watch": "npm run unit -- --watch",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "release": {
