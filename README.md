@@ -100,16 +100,17 @@ Run with environment variable `DEBUG=snap-shot-it ...` to see log messages.
 Because under the hood it uses [snap-shot-core][snap-shot-core] you might
 want to show messages from both libraries with `DEBUG=snap-shot* ...`
 
-## TypeScript
+## Examples
+
+### TypeScript
 
 An example using [ts-mocha](https://github.com/piotrwitek/ts-mocha) is
 shown in folder [ts-demo](ts-demo)
 
-## CoffeeScript
+### CoffeeScript
 
-CoffeeScript example is in [coffee-demo](coffee-demo) folder. Note, the
-watch mode is not working correctly, because the test data is not reset
-after each run.
+CoffeeScript example is in [coffee-demo](coffee-demo) folder. Watch mode is
+working properly.
 
 ## Inspiration
 
@@ -122,6 +123,24 @@ which overrides it and it is very simple [repeat/src/index.js][repeat source].
 [snap-shot]: https://github.com/bahmutov/snap-shot
 [repeat-it]: https://github.com/bahmutov/repeat-it
 [repeat source]: https://github.com/bahmutov/repeat-it/blob/master/src/index.js
+
+## Related projects
+
+This NPM module is part of my experiments with snapshot testing. There are
+lots of other ones, blog posts and slides on this topic.
+
+* [snap-shot-core][snap-shot-core] implements loading and saving snapshots
+* [snap-shot](https://github.com/bahmutov/snap-shot) is an alternative to this
+  package that tries to determine spec name using stack trace and static
+  source code parsing. Hard to do for transpiled code!
+* [schema-shot](https://github.com/bahmutov/schema-shot) is
+  "schema by example" snapshot testing
+* [subset-shot](https://github.com/bahmutov/subset-shot)
+  where new value can be a superset of the saved snapshot
+* Blog post [Picking snapshot library](https://glebbahmutov.com/blog/picking-snapshot-library/)
+* Slides [Snapshot testing the hard way](https://slides.com/bahmutov/snapshot-testing-the-hard-way)
+
+[snap-shot-core]: https://github.com/bahmutov/snap-shot-core
 
 ### Small print
 
