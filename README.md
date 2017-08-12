@@ -105,6 +105,12 @@ want to show messages from both libraries with `DEBUG=snap-shot* ...`
 An example using [ts-mocha](https://github.com/piotrwitek/ts-mocha) is
 shown in folder [ts-demo](ts-demo)
 
+## CoffeeScript
+
+CoffeeScript example is in [coffee-demo](coffee-demo) folder. Note, the
+watch mode is not working correctly, because the test data is not reset
+after each run.
+
 ## Inspiration
 
 Came during WorkBar Cambridge Happy Hour on the terrace as I was thinking about

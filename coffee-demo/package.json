@@ -1,0 +1,16 @@
+{
+  "name": "coffee-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script/register spec.coffee"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "coffee-script": "^1.12.7",
+    "mocha": "^3.5.0"
+  }
+}
