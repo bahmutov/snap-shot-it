@@ -11,8 +11,8 @@ before_script:
 script:
   - npm test
   - DEBUG=snap-shot-it npm run test-two-specs
-  - cd ts-demo && npm it
-  - cd coffee-demo && npm it
+  - cd ts-demo; npm it; cd ..
+  - cd coffee-demo; npm it; cd ..
 after_success:
   - ls
   - npm run
