@@ -100,6 +100,11 @@ Run with environment variable `DEBUG=snap-shot-it ...` to see log messages.
 Because under the hood it uses [snap-shot-core][snap-shot-core] you might
 want to show messages from both libraries with `DEBUG=snap-shot* ...`
 
+## TypeScript
+
+An example using [ts-mocha](https://github.com/piotrwitek/ts-mocha) is
+shown in folder [ts-demo](ts-demo)
+
 ## Inspiration
 
 Came during WorkBar Cambridge Happy Hour on the terrace as I was thinking about
