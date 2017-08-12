@@ -22,6 +22,11 @@ function spyIt (title, fn) {
   return oldIt(title, function () {
     currentTest = this.test // eslint-disable-line immutable/no-this
     debug('before test "%s"', currentTest.fullTitle())
+    // we are starting a test, so count the snapshots from the beginning
+    core.restore({
+      file: currentTest.file,
+      specName: currentTest.fullTitle()
+    })
     return fn()
     // could also do something after the test function executes
   })
