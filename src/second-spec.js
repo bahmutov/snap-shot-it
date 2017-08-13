@@ -1,7 +1,7 @@
 const snapshot = require('.')
 
 /* eslint-env mocha */
-describe('b-spec', () => {
+describe('second-spec', () => {
   it('works too', () => {
     snapshot('some value')
   })

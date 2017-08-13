@@ -2,64 +2,34 @@
 
 const debug = require('debug')('snap-shot-it')
 const core = require('snap-shot-core')
-// eslint-disable-next-line immutable/no-let
-let oldIt = global.it
 
 debug('loading snap-shot-it')
 
-if (typeof oldIt !== 'function') {
-  throw new Error(
-    'Cannot find global "it" function, is it BDD runner like Mocha?'
-  )
-}
+// eslint-disable-next-line immutable/no-let
+let currentTest
 
-function isFunction (x) {
-  return typeof x === 'function'
+function setTest (t) {
+  if (!t) {
+    throw new Error('Expected test object')
+  }
+  currentTest = t
 }
-
-function isPromise (x) {
-  return typeof x === 'object' && isFunction(x.then) && isFunction(x.catch)
-}
-
-let currentTest // eslint-disable-line immutable/no-let
 
 function clearCurrentTest () {
   debug('clearing current test "%s"', currentTest.fullTitle())
-  currentTest = null
-}
-
-function clearCurrentTestAndRethrow (err) {
-  debug('clearing current test "%s"', currentTest.fullTitle())
-  debug('and rethrowing error "%s"', err.message)
-  currentTest = null
-  throw err
-}
-
-function spyIt (title, fn) {
-  if (typeof title === 'string' && !fn) {
-    debug('skipping test "%s"', title)
-    return oldIt(title)
-  }
-
-  debug('spyIt on "%s"', title)
-
-  return oldIt(title, function () {
-    currentTest = this.test // eslint-disable-line immutable/no-this
-    debug('before test "%s"', currentTest.fullTitle())
-    debug('before file %s', currentTest.file)
-    // we are starting a test, so count the snapshots from the beginning
-    core.restore({
-      file: currentTest.file,
-      specName: currentTest.fullTitle()
-    })
-    const result = fn()
-    if (isPromise(result)) {
-      return result.then(clearCurrentTest, clearCurrentTestAndRethrow)
-    } else {
-      clearCurrentTest()
-    }
+  core.restore({
+    file: currentTest.file,
+    specName: currentTest.fullTitle()
   })
+  currentTest = null
 }
+
+global.beforeEach(function () {
+  // eslint-disable-next-line immutable/no-this
+  setTest(this.currentTest)
+})
+
+global.afterEach(clearCurrentTest)
 
 function snapshot (value) {
   if (!currentTest) {
@@ -87,22 +57,6 @@ function snapshot (value) {
 }
 
 /* eslint-disable immutable/no-mutation */
-spyIt.only = oldIt.only
-spyIt.skip = oldIt.skip
-
-// do not let Mocha set the original "it" back
-// instead use that as new "it" (has correct context information
-// like file and spec name)
-Object.defineProperty(global, 'it', {
-  enumerable: true,
-  get: () => spyIt,
-  set: function (value) {
-    oldIt = value
-    spyIt.only = oldIt.only
-    spyIt.skip = oldIt.skip
-  }
-})
-// global.it = spyIt
 module.exports = snapshot
 /* eslint-enable immutable/no-mutation */
 
