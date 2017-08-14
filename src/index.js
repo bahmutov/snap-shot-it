@@ -2,6 +2,7 @@
 
 const debug = require('debug')('snap-shot-it')
 const core = require('snap-shot-core')
+const compare = require('snap-shot-compare')
 
 debug('loading snap-shot-it')
 
@@ -51,6 +52,7 @@ function snapshot (value) {
     file: currentTest.file,
     specName: currentTest.fullTitle(),
     ext: null,
+    compare,
     opts
   }
   return core(snap)

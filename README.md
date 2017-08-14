@@ -17,6 +17,9 @@ done in [snap-shot][snap-shot]); it should work in transpiled code.
 
 [snapshot testing]: https://glebbahmutov.com/blog/snapshot-testing/
 
+This package uses [snap-shot-compare](https://github.com/bahmutov/snap-shot-compare)
+to display object and text difference intelligently.
+
 ## Install
 
 Requires [Node](https://nodejs.org/en/) version 4 or above.
