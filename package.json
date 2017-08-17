@@ -113,7 +113,7 @@
   },
   "dependencies": {
     "debug": "3.0.0",
-    "snap-shot-compare": "1.0.0",
-    "snap-shot-core": "1.8.0"
+    "snap-shot-compare": "2.1.0",
+    "snap-shot-core": "3.0.0"
   }
 }
