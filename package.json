@@ -96,7 +96,7 @@
   "devDependencies": {
     "ban-sensitive-files": "1.9.0",
     "dependency-check": "2.9.1",
-    "deps-ok": "1.2.0",
+    "deps-ok": "1.2.1",
     "dont-crack": "1.2.1",
     "eslint": "4.4.1",
     "eslint-plugin-immutable": "1.0.0",
@@ -107,7 +107,7 @@
     "nsp": "2.7.0",
     "pre-git": "3.15.3",
     "prettier-standard": "6.0.0",
-    "semantic-release": "6.3.6",
+    "semantic-release": "7.0.2",
     "simple-commit-message": "3.3.1",
     "standard": "10.0.3"
   },
