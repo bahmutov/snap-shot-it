@@ -38,3 +38,13 @@ describe('example', () => {
     return Promise.resolve(42).then(snapshot)
   })
 })
+
+describe('mult line text', () => {
+  it('works', () => {
+    snapshot(`
+      line 1
+      line 2
+      line 3
+    `)
+  })
+})
