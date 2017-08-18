@@ -51,7 +51,7 @@ function snapshot (value) {
     what: value,
     file: currentTest.file,
     specName: currentTest.fullTitle(),
-    ext: null,
+    ext: '.js',
     compare,
     opts
   }
