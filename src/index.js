@@ -42,9 +42,9 @@ function snapshot (value) {
   debug('snapshot value %j', value)
 
   const opts = {
-    show: Boolean(process.env.SHOW),
-    dryRun: Boolean(process.env.DRY),
-    update: Boolean(process.env.UPDATE),
+    show: Boolean(process.env.SNAPSHOT_SHOW),
+    dryRun: Boolean(process.env.SNAPSHOT_DRY),
+    update: Boolean(process.env.SNAPSHOT_UPDATE),
     ci: Boolean(process.env.CI)
   }
   const snap = {

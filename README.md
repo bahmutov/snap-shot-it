@@ -82,19 +82,19 @@ multi-line text, etc.
 You can see the saves snapshot values by running with environment variable
 
 ```bash
-SHOW=1 npm test
+SNAPSHOT_SHOW=1 npm test
 ```
 
 You can see snapshot values without writing them into the snapshot file
 
 ```bash
-DRY=1 npm test
+SNAPSHOT_DRY=1 npm test
 ```
 
 You can update snapshot values
 
 ```bash
-UPDATE=1 npm test
+SNAPSHOT_UPDATE=1 npm test
 ```
 
 ## Debugging
