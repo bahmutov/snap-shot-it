@@ -6,6 +6,13 @@ const compare = require('snap-shot-compare')
 
 debug('loading snap-shot-it')
 
+// all tests we have seen so we can prune later
+const seenSpecs = []
+function pruneSnapshots () {
+  debug('pruning snapshots')
+  debug(seenSpecs)
+}
+
 // eslint-disable-next-line immutable/no-let
 let currentTest
 
@@ -16,18 +23,31 @@ function setTest (t) {
   currentTest = t
 }
 
+const getTestTitle = test => test.fullTitle().trim()
+
+const getTestInfo = test => {
+  return {
+    file: test.file,
+    specName: getTestTitle(test)
+  }
+}
+
 function clearCurrentTest () {
-  debug('clearing current test "%s"', currentTest.fullTitle())
-  core.restore({
-    file: currentTest.file,
-    specName: currentTest.fullTitle()
-  })
-  currentTest = null
+  if (currentTest) {
+    const fullTitle = getTestTitle(currentTest)
+    debug('clearing current test "%s"', fullTitle)
+    core.restore(getTestInfo(currentTest))
+    currentTest = null
+  }
 }
 
 global.beforeEach(function () {
-  // eslint-disable-next-line immutable/no-this
-  setTest(this.currentTest)
+  /* eslint-disable immutable/no-this */
+  if (this.currentTest) {
+    setTest(this.currentTest)
+    seenSpecs.push(getTestInfo(this.currentTest))
+  }
+  /* eslint-enable immutable/no-this */
 })
 
 global.afterEach(clearCurrentTest)
@@ -37,7 +57,7 @@ function snapshot (value) {
     throw new Error('Missing current test, cannot make snapshot')
   }
 
-  const fullTitle = currentTest.fullTitle().trim()
+  const fullTitle = getTestTitle(currentTest)
   debug('snapshot in test "%s"', fullTitle)
   debug('full title "%s"', fullTitle)
   debug('from file "%s"', currentTest.file)
@@ -63,6 +83,8 @@ function snapshot (value) {
 /* eslint-disable immutable/no-mutation */
 module.exports = snapshot
 /* eslint-enable immutable/no-mutation */
+
+global.after(pruneSnapshots)
 
 function deleteFromCache () {
   // to work with transpiled code, need to force
