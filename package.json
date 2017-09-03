@@ -83,7 +83,8 @@
     "unit": "mocha src/*spec.js",
     "watch": "npm run unit -- --watch",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test-two-specs": "mocha test/two-specs"
+    "test-two-specs": "mocha test/two-specs",
+    "prune-demo": "cd prune-demo; mocha spec.js"
   },
   "release": {
     "analyzeCommits": "simple-commit-message",

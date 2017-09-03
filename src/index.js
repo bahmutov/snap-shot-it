@@ -36,8 +36,10 @@ function snapshot (value) {
   if (!currentTest) {
     throw new Error('Missing current test, cannot make snapshot')
   }
-  debug('snapshot in test "%s"', currentTest.fullTitle())
-  debug('full title "%s"', currentTest.fullTitle())
+
+  const fullTitle = currentTest.fullTitle().trim()
+  debug('snapshot in test "%s"', fullTitle)
+  debug('full title "%s"', fullTitle)
   debug('from file "%s"', currentTest.file)
   debug('snapshot value %j', value)
 
@@ -50,7 +52,7 @@ function snapshot (value) {
   const snap = {
     what: value,
     file: currentTest.file,
-    specName: currentTest.fullTitle(),
+    specName: fullTitle,
     ext: '.js',
     compare,
     opts
