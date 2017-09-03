@@ -3,6 +3,7 @@
 const debug = require('debug')('snap-shot-it')
 const core = require('snap-shot-core')
 const compare = require('snap-shot-compare')
+const { isDataDriven, dataDriven } = require('@bahmutov/data-driven')
 
 debug('loading snap-shot-it')
 const EXTENSION = '.js'
@@ -65,7 +66,20 @@ function snapshot (value) {
   debug('snapshot in test "%s"', fullTitle)
   debug('full title "%s"', fullTitle)
   debug('from file "%s"', currentTest.file)
-  debug('snapshot value %j', value)
+
+  // eslint-disable-next-line immutable/no-let
+  let savedTestTitle = fullTitle
+
+  if (isDataDriven(arguments)) {
+    // value is a function
+    debug('data-driven test for %s', value.name)
+    value = dataDriven(value, Array.from(arguments).slice(1))
+    savedTestTitle += ' ' + value.name
+    debug('extended save name to include function name')
+    debug('snapshot name "%s"', savedTestTitle)
+  } else {
+    debug('snapshot value %j', value)
+  }
 
   const opts = {
     show: Boolean(process.env.SNAPSHOT_SHOW),
@@ -76,7 +90,7 @@ function snapshot (value) {
   const snap = {
     what: value,
     file: currentTest.file,
-    specName: fullTitle,
+    specName: savedTestTitle,
     ext: EXTENSION,
     compare,
     opts
