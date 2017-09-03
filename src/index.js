@@ -5,12 +5,16 @@ const core = require('snap-shot-core')
 const compare = require('snap-shot-compare')
 
 debug('loading snap-shot-it')
+const EXTENSION = '.js'
 
 // all tests we have seen so we can prune later
 const seenSpecs = []
 function pruneSnapshots () {
   debug('pruning snapshots')
   debug(seenSpecs)
+  core.prune({ tests: seenSpecs, ext: EXTENSION })
+  // eslint-disable-next-line immutable/no-mutation
+  seenSpecs.length = 0
 }
 
 // eslint-disable-next-line immutable/no-let
@@ -73,7 +77,7 @@ function snapshot (value) {
     what: value,
     file: currentTest.file,
     specName: fullTitle,
-    ext: '.js',
+    ext: EXTENSION,
     compare,
     opts
   }

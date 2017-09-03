@@ -20,7 +20,7 @@ exports['example works 2'] = `a text message`
 
 exports['example works 3'] = 42
 
-exports['mult line text works 1'] = `
+exports['multi line text works 1'] = `
       line 1
       line 2
       line 3

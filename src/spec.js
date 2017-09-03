@@ -39,7 +39,7 @@ describe('example', () => {
   })
 })
 
-describe('mult line text', () => {
+describe('multi line text', () => {
   it('works', () => {
     snapshot(`
       line 1

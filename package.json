@@ -115,6 +115,6 @@
   "dependencies": {
     "debug": "3.0.1",
     "snap-shot-compare": "2.4.0",
-    "snap-shot-core": "4.0.0"
+    "snap-shot-core": "4.1.0"
   }
 }
