@@ -4,6 +4,8 @@ const debug = require('debug')('snap-shot-it')
 const core = require('snap-shot-core')
 const compare = require('snap-shot-compare')
 const { isDataDriven, dataDriven } = require('@bahmutov/data-driven')
+const { isNamedSnapshotArguments } = require('./named-snapshots')
+const R = require('ramda')
 
 debug('loading snap-shot-it')
 const EXTENSION = '.js'
@@ -16,6 +18,14 @@ function pruneSnapshots () {
   core.prune({ tests: seenSpecs, ext: EXTENSION })
   // eslint-disable-next-line immutable/no-mutation
   seenSpecs.length = 0
+}
+
+function addToPrune (info) {
+  // do not add if previous info is the same
+  if (R.equals(R.last(seenSpecs), info)) {
+    return
+  }
+  seenSpecs.push(info)
 }
 
 // eslint-disable-next-line immutable/no-let
@@ -50,7 +60,6 @@ global.beforeEach(function () {
   /* eslint-disable immutable/no-this */
   if (this.currentTest) {
     setTest(this.currentTest)
-    seenSpecs.push(getTestInfo(this.currentTest))
   }
   /* eslint-enable immutable/no-this */
 })
@@ -64,7 +73,6 @@ function snapshot (value) {
 
   const fullTitle = getTestTitle(currentTest)
   debug('snapshot in test "%s"', fullTitle)
-  debug('full title "%s"', fullTitle)
   debug('from file "%s"', currentTest.file)
 
   // eslint-disable-next-line immutable/no-let
@@ -77,8 +85,18 @@ function snapshot (value) {
     savedTestTitle += ' ' + value.name
     debug('extended save name to include function name')
     debug('snapshot name "%s"', savedTestTitle)
+    addToPrune(getTestInfo(currentTest))
+  } else if (isNamedSnapshotArguments(arguments)) {
+    savedTestTitle = arguments[0]
+    value = arguments[1]
+    debug('named snapshots "%s"', savedTestTitle)
+    addToPrune({
+      file: currentTest.file,
+      specName: savedTestTitle
+    })
   } else {
     debug('snapshot value %j', value)
+    addToPrune(getTestInfo(currentTest))
   }
 
   const opts = {

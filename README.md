@@ -104,6 +104,22 @@ You can update snapshot values
 SNAPSHOT_UPDATE=1 npm test
 ```
 
+## Named snapshots
+
+Renaming tests might lead to confusion and pruning snapshots. You can name the snapshots
+yourself
+
+```js
+const value = 42
+snapshot('my name', value)
+```
+
+The snapshots will be saved as
+
+```js
+exports['my name 1'] = 42
+```
+
 ## Data-driven testing
 
 Writing multiple input / output pairs for a function under test quickly
