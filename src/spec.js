@@ -1,4 +1,5 @@
 const snapshot = require('.')
+const { stripIndent } = require('common-tags')
 
 const add = (a, b) => a + b
 
@@ -46,5 +47,21 @@ describe('multi line text', () => {
       line 2
       line 3
     `)
+  })
+
+  it('works with longer text', () => {
+    const text = stripIndent`
+      first line
+      line 2
+      line 3
+      line 4
+      line 5
+      line 6
+      line 7
+      line 8
+      line 9
+      line 10
+    `
+    snapshot(text)
   })
 })
