@@ -1,44 +1,3 @@
-exports['data-driven testing works isPrime 1'] = {
-  "name": "isPrime",
-  "behavior": [
-    {
-      "given": 10,
-      "expect": false
-    },
-    {
-      "given": 11,
-      "expect": true
-    }
-  ]
-}
-
-exports['data-driven testing works add 1'] = {
-  "name": "add",
-  "behavior": [
-    {
-      "given": [
-        1,
-        2
-      ],
-      "expect": 3
-    }
-  ]
-}
-
-exports['data-driven testing works isPrime 2'] = {
-  "name": "isPrime",
-  "behavior": [
-    {
-      "given": 12,
-      "expect": false
-    },
-    {
-      "given": 13,
-      "expect": true
-    }
-  ]
-}
-
 exports['data-driven testing computes values 1'] = {
   "name": "isPrime",
   "behavior": [
@@ -173,3 +132,43 @@ exports['data-driven testing checks behavior of binary function add add 1'] = {
   ]
 }
 
+exports['data-driven testing works isPrime 1'] = {
+  "name": "isPrime",
+  "behavior": [
+    {
+      "given": 10,
+      "expect": false
+    },
+    {
+      "given": 11,
+      "expect": true
+    }
+  ]
+}
+
+exports['data-driven testing works isPrime 2'] = {
+  "name": "isPrime",
+  "behavior": [
+    {
+      "given": 12,
+      "expect": false
+    },
+    {
+      "given": 13,
+      "expect": true
+    }
+  ]
+}
+
+exports['data-driven testing works add 1'] = {
+  "name": "add",
+  "behavior": [
+    {
+      "given": [
+        1,
+        2
+      ],
+      "expect": 3
+    }
+  ]
+}

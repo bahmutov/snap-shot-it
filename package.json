@@ -119,6 +119,6 @@
     "debug": "3.0.1",
     "ramda": "0.24.1",
     "snap-shot-compare": "2.5.0",
-    "snap-shot-core": "4.2.0"
+    "snap-shot-core": "5.0.0"
   }
 }
