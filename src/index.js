@@ -21,9 +21,27 @@ const EXTENSION = '.js'
 const SNAPSHOT_FOLDER = path.join(process.cwd(), '__snapshots__')
 const SNAPSHOT_FILENAME = path.join(SNAPSHOT_FOLDER, `snapshots${EXTENSION}`)
 
+// for each full test name, keeps number of snapshots
+// allows using multiple snapshots inside single test
+// without confusing them
+// eslint-disable-next-line immutable/no-let
+let counters = {}
+
+function getSnapshotIndex (key) {
+  if (key in counters) {
+    // eslint-disable-next-line immutable/no-mutation
+    counters[key] += 1
+  } else {
+    // eslint-disable-next-line immutable/no-mutation
+    counters[key] = 1
+  }
+  return counters[key]
+}
+
+// eslint-disable-next-line immutable/no-let
 let storeSnapshot
 
-global.before(function loadSnapshots() {
+global.before(function loadSnapshots () {
   debug('loading snapshot store')
   return new Promise((resolve, reject) => {
     if (fs.existsSync(SNAPSHOT_FILENAME)) {
@@ -41,13 +59,15 @@ global.before(function loadSnapshots() {
 
 // all tests we have seen so we can prune later
 const seenSpecs = []
-function pruneSnapshots () {
-  debug('pruning snapshots')
-  debug(seenSpecs)
-  // core.prune({ tests: seenSpecs, ext: EXTENSION })
-  // eslint-disable-next-line immutable/no-mutation
-  seenSpecs.length = 0
-}
+
+// disable pruning for now
+// function pruneSnapshots () {
+//   debug('pruning snapshots')
+//   debug(seenSpecs)
+//   // core.prune({ tests: seenSpecs, ext: EXTENSION })
+//   // eslint-disable-next-line immutable/no-mutation
+//   seenSpecs.length = 0
+// }
 
 function addToPrune (info) {
   // do not add if previous info is the same
@@ -95,6 +115,23 @@ global.beforeEach(function setCurrentTest () {
 
 global.afterEach(clearCurrentTest)
 
+function getTestName (test) {
+  const names = itsName(test)
+  la(is.strings(names), 'could not get name from current test', test)
+
+  const filename = path.relative(process.cwd(), test.file)
+
+  const name = R.prepend(filename, names)
+  return name
+}
+
+function getSnapshotName (test) {
+  const names = getTestName(test)
+  const key = names.join(' - ')
+  const index = getSnapshotIndex(key)
+  return R.append(String(index), names)
+}
+
 function snapshot (value) {
   if (!currentTest) {
     throw new Error('Missing current test, cannot make snapshot')
@@ -134,23 +171,16 @@ function snapshot (value) {
     update: Boolean(process.env.SNAPSHOT_UPDATE),
     ci: Boolean(process.env.CI)
   }
-  const name = itsName(currentTest)
-  la(is.strings(name), 'could not get name from current test', currentTest)
+  const name = getSnapshotName(currentTest)
+  la(is.strings(name), 'could not get name for test', currentTest)
+  la(is.unempty(name), 'empty test name for', currentTest)
 
   const snap = {
     value,
     name,
-    opts
+    opts,
+    compare
   }
-  // should we add test filename to the names?
-  // const snap = {
-  //   what: value,
-  //   file: currentTest.file,
-  //   specName: savedTestTitle,
-  //   ext: EXTENSION,
-  //   compare,
-  //   opts
-  // }
   return storeSnapshot(snap)
 }
 
@@ -165,18 +195,21 @@ function deleteFromCache () {
   // re-evaluating this module again on watch
   debug('deleting snap-shot-it from cache')
   delete require.cache[__filename]
+  // reset all counters
+  counters = {}
 }
 global.after(deleteFromCache)
 
 function saveSnapshots () {
-  return makeDir(SNAPSHOT_FOLDER)
-    .then(() => {
-      debug('saving snapshots from version %s', version)
-      const snapshots = storeSnapshot()
-      snapshots.__version = version
-      const s = JSON.stringify(snapshots, null, 2)
-      const str = 'module.exports = ' + s + '\n'
-      fs.writeFileSync(SNAPSHOT_FILENAME, str)
+  return makeDir(SNAPSHOT_FOLDER).then(() => {
+    debug('saving snapshots from version %s', version)
+    const snapshots = storeSnapshot()
+    const moreInfo = R.merge(snapshots, {
+      __version: version
     })
+    const s = JSON.stringify(moreInfo, null, 2)
+    const str = 'module.exports = ' + s + '\n'
+    fs.writeFileSync(SNAPSHOT_FILENAME, str)
+  })
 }
 global.after(saveSnapshots)
