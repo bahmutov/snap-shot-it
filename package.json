@@ -117,8 +117,11 @@
     "@bahmutov/data-driven": "1.0.0",
     "check-more-types": "2.24.0",
     "debug": "3.1.0",
+    "its-name": "1.0.0",
+    "lazy-ass": "1.6.0",
+    "make-dir": "1.0.0",
     "ramda": "0.24.1",
     "snap-shot-compare": "2.5.1",
-    "snap-shot-core": "5.0.0"
+    "snap-shot-store": "1.2.3"
   }
 }
