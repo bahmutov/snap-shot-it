@@ -117,6 +117,7 @@
     "@bahmutov/data-driven": "1.0.0",
     "check-more-types": "2.24.0",
     "debug": "3.1.0",
+    "has-only": "1.0.0",
     "ramda": "0.24.1",
     "snap-shot-compare": "2.5.1",
     "snap-shot-core": "5.0.0"

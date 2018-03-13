@@ -6,19 +6,23 @@ const compare = require('snap-shot-compare')
 const { isDataDriven, dataDriven } = require('@bahmutov/data-driven')
 const { isNamedSnapshotArguments } = require('./named-snapshots')
 const R = require('ramda')
+const { hasOnly } = require('has-only')
 
 debug('loading snap-shot-it')
 const EXTENSION = '.js'
 
 // all tests we have seen so we can prune later
 const seenSpecs = []
-function pruneSnapshots () {
+function _pruneSnapshots () {
   debug('pruning snapshots')
   debug(seenSpecs)
   core.prune({ tests: seenSpecs, ext: EXTENSION })
   // eslint-disable-next-line immutable/no-mutation
   seenSpecs.length = 0
 }
+
+// eslint-disable-next-line immutable/no-let
+let pruneSnapshots
 
 function addToPrune (info) {
   // do not add if previous info is the same
@@ -55,6 +59,18 @@ function clearCurrentTest () {
     currentTest = null
   }
 }
+
+global.beforeEach(function () {
+  /* eslint-disable immutable/no-this */
+  if (hasOnly(this)) {
+    debug('skip pruning snapshots because found .only')
+    pruneSnapshots = function noop () {}
+  } else {
+    debug('will prune snapshots because no .only')
+    pruneSnapshots = _pruneSnapshots
+  }
+  /* eslint-enable immutable/no-this */
+})
 
 global.beforeEach(function () {
   /* eslint-disable immutable/no-this */
@@ -120,7 +136,11 @@ function snapshot (value) {
 module.exports = snapshot
 /* eslint-enable immutable/no-mutation */
 
-global.after(pruneSnapshots)
+global.after(function () {
+  /* eslint-disable immutable/no-this */
+  pruneSnapshots.call(this)
+  /* eslint-enable immutable/no-this */
+})
 
 function deleteFromCache () {
   // to work with transpiled code, need to force
