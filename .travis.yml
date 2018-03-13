@@ -1,22 +1,20 @@
 language: node_js
 cache:
   directories:
-    - node_modules
+    - ~/.npm
 notifications:
   email: true
 node_js:
   - '8'
-before_script:
-  - npm prune
+install:
+  - npm ci
 script:
   - npm test
   - DEBUG=snap-shot-it npm run test-two-specs
   - cd ts-demo; npm it; cd ..
   - cd coffee-demo; npm it; cd ..
 after_success:
-  - ls
-  - npm run
-  - npm run semantic-release
+  - npm run travis-deploy-once "npm run semantic-release"
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/

@@ -82,17 +82,13 @@
     "test": "npm run unit",
     "unit": "mocha src/*spec.js",
     "watch": "npm run unit -- --watch",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release",
     "test-two-specs": "mocha test/two-specs",
-    "prune-demo": "cd prune-demo; mocha spec.js"
+    "prune-demo": "cd prune-demo; mocha spec.js",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "release": {
-    "analyzeCommits": "simple-commit-message",
-    "generateNotes": "github-post-release",
-    "verifyRelease": {
-      "path": "dont-crack",
-      "test-against": []
-    }
+    "analyzeCommits": "simple-commit-message"
   },
   "devDependencies": {
     "ban-sensitive-files": "1.9.0",
@@ -109,9 +105,10 @@
     "nsp": "3.2.1",
     "pre-git": "3.17.0",
     "prettier-standard": "8.0.0",
-    "semantic-release": "8.0.4",
+    "semantic-release": "^15.0.3",
     "simple-commit-message": "4.0.3",
-    "standard": "11.0.0"
+    "standard": "11.0.0",
+    "travis-deploy-once": "^4.4.0"
   },
   "dependencies": {
     "@bahmutov/data-driven": "1.0.0",
