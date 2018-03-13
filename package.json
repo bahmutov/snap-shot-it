@@ -96,7 +96,7 @@
   },
   "devDependencies": {
     "ban-sensitive-files": "1.9.0",
-    "common-tags": "1.4.0",
+    "common-tags": "1.7.2",
     "dependency-check": "2.9.1",
     "deps-ok": "1.2.1",
     "dont-crack": "1.2.1",
@@ -106,12 +106,12 @@
     "github-post-release": "1.13.1",
     "license-checker": "14.0.0",
     "mocha": "3.5.3",
-    "nsp": "2.8.1",
-    "pre-git": "3.15.3",
-    "prettier-standard": "7.0.1",
+    "nsp": "3.2.1",
+    "pre-git": "3.17.0",
+    "prettier-standard": "8.0.0",
     "semantic-release": "8.0.4",
-    "simple-commit-message": "3.3.1",
-    "standard": "10.0.3"
+    "simple-commit-message": "4.0.3",
+    "standard": "11.0.0"
   },
   "dependencies": {
     "@bahmutov/data-driven": "1.0.0",
