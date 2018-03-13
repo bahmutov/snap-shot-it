@@ -88,8 +88,7 @@
     "travis-deploy-once": "travis-deploy-once"
   },
   "release": {
-    "analyzeCommits": "simple-commit-message",
-    "generateNotes": "github-post-release"
+    "analyzeCommits": "simple-commit-message"
   },
   "devDependencies": {
     "ban-sensitive-files": "1.9.0",
