@@ -104,10 +104,10 @@
     "nsp": "3.2.1",
     "pre-git": "3.17.0",
     "prettier-standard": "8.0.0",
-    "semantic-release": "^15.0.3",
+    "semantic-release": "15.0.3",
     "simple-commit-message": "4.0.3",
     "standard": "11.0.0",
-    "travis-deploy-once": "^4.4.0"
+    "travis-deploy-once": "4.4.0"
   },
   "dependencies": {
     "@bahmutov/data-driven": "1.0.0",
