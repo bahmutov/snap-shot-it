@@ -115,7 +115,7 @@
     "debug": "3.1.0",
     "has-only": "1.0.0",
     "ramda": "0.25.0",
-    "snap-shot-compare": "2.5.1",
+    "snap-shot-compare": "2.7.1",
     "snap-shot-core": "5.0.4"
   }
 }
