@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ts-mocha": "1.1.0",
+    "ts-mocha": "1.2.0",
     "typescript": "2.8.1"
   }
 }
