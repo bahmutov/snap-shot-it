@@ -11,6 +11,6 @@
   "license": "ISC",
   "devDependencies": {
     "ts-mocha": "1.2.0",
-    "typescript": "2.8.1"
+    "typescript": "2.8.3"
   }
 }
