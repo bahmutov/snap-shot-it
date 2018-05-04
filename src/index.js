@@ -6,7 +6,7 @@ const compare = require('snap-shot-compare')
 const { isDataDriven, dataDriven } = require('@bahmutov/data-driven')
 const { isNamedSnapshotArguments } = require('./named-snapshots')
 const R = require('ramda')
-const { hasOnly } = require('has-only')
+const { hasOnly, hasFailed } = require('has-only')
 
 debug('loading snap-shot-it')
 const EXTENSION = '.js'
@@ -138,7 +138,12 @@ module.exports = snapshot
 
 global.after(function () {
   /* eslint-disable immutable/no-this */
-  pruneSnapshots.call(this)
+  if (!hasFailed(this)) {
+    debug('the test run was a success')
+    pruneSnapshots.call(this)
+  } else {
+    debug('not attempting to prune snapshots because the test run has failed')
+  }
   /* eslint-enable immutable/no-this */
 })
 

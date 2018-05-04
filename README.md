@@ -120,6 +120,10 @@ The snapshots will be saved as
 exports['my name 1'] = 42
 ```
 
+## Pruning
+
+If the test run is successful and executed _all_ tests (there was no `.only`) then snapshots without a test are pruned.
+
 ## Data-driven testing
 
 Writing multiple input / output pairs for a function under test quickly

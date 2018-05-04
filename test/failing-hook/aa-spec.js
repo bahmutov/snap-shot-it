@@ -2,11 +2,15 @@ const snapshot = require('../..')
 
 /* eslint-env mocha */
 describe('a-spec', () => {
+  let counter = 0
   beforeEach(() => {
-    // this hook fails on purpose
+    // this hook fails on purpose before second test
     // the failing hook should NOT trim the previously saved
     // snapshot from the test below
-    // throw new Error('beforeEach error!')
+    counter += 1
+    if (counter === 2) {
+      throw new Error('beforeEach second test error!')
+    }
   })
   it('works first', () => {
     snapshot('value a')
