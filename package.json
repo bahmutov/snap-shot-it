@@ -84,6 +84,7 @@
     "watch": "npm run unit -- --watch",
     "semantic-release": "semantic-release",
     "test-two-specs": "mocha test/two-specs",
+    "test-failing-hook": "mocha test/failing-hook",
     "prune-demo": "cd prune-demo; mocha spec.js",
     "travis-deploy-once": "travis-deploy-once"
   },
