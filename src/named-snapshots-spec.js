@@ -1,4 +1,5 @@
 const snapshot = require('.')
+const la = require('lazy-ass')
 
 /* eslint-env mocha */
 describe('named snapshots', () => {
@@ -8,7 +9,13 @@ describe('named snapshots', () => {
     snapshot('third snapshot', 3)
   })
 
-  it.only('prints custom name in the error', () => {
-    snapshot('my snap name', 42)
+  it('prints custom name in the error', () => {
+    const mySnapshotName = 'my snap name'
+    try {
+      // making it fail on purpose to get the error message
+      snapshot(mySnapshotName, 41)
+    } catch (e) {
+      la(e.message.includes(mySnapshotName), e.message)
+    }
   })
 })
