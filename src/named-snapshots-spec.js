@@ -7,4 +7,8 @@ describe('named snapshots', () => {
     snapshot('second snapshot', 2)
     snapshot('third snapshot', 3)
   })
+
+  it.only('prints custom name in the error', () => {
+    snapshot('my snap name', 42)
+  })
 })
