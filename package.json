@@ -118,6 +118,6 @@
     "has-only": "1.1.1",
     "ramda": "0.25.0",
     "snap-shot-compare": "2.7.1",
-    "snap-shot-core": "6.0.0"
+    "snap-shot-core": "6.0.1"
   }
 }
