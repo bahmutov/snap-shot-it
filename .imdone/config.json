@@ -18,10 +18,16 @@
       "IDEA",
       "NOTE",
       "REVIEW",
-      "MARK"
+      "MARK",
+      "HELP"
     ]
   },
-  "lists": [],
+  "lists": [
+    {
+      "name": "HELP",
+      "hidden": false
+    }
+  ],
   "marked": {
     "gfm": true,
     "tables": true,
@@ -34,5 +40,6 @@
     "id": "5b1adecc1883d42a1fbf805d",
     "name": "bahmutov/snap-shot-it",
     "useImdoneioForPriority": true
-  }
+  },
+  "noHelp": true
 }
