@@ -124,11 +124,19 @@ function snapshot (value) {
   const snap = {
     what: value,
     file: currentTest.file,
-    specName: savedTestTitle,
     ext: EXTENSION,
     compare,
     opts
   }
+
+  if (isNamedSnapshotArguments(arguments)) {
+    // eslint-disable-next-line immutable/no-mutation
+    snap.exactSpecName = savedTestTitle
+  } else {
+    // eslint-disable-next-line immutable/no-mutation
+    snap.specName = savedTestTitle
+  }
+
   return core(snap)
 }
 

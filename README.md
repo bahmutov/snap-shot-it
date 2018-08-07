@@ -117,8 +117,10 @@ snapshot('my name', value)
 The snapshots will be saved as
 
 ```js
-exports['my name 1'] = 42
+exports['my name'] = 42
 ```
+
+**Note** you should make sure that the name is unique per spec file.
 
 ## Pruning
 
