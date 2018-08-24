@@ -1,3 +1,5 @@
+[![TODO board](https://imdone.io/api/1.0/projects/5b1adecc1883d42a1fbf805d/badge)](https://imdone.io/app#/board/bahmutov/snap-shot-it)
+
 # snap-shot-it
 
 > Smarter snapshot utility for Mocha and BDD test runners + data-driven testing!
