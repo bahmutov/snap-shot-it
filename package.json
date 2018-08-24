@@ -110,7 +110,7 @@
     "semantic-release": "15.9.9",
     "simple-commit-message": "4.0.3",
     "standard": "11.0.1",
-    "travis-deploy-once": "5.0.2"
+    "travis-deploy-once": "5.0.3"
   },
   "dependencies": {
     "@bahmutov/data-driven": "1.0.0",
