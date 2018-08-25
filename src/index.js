@@ -1,12 +1,13 @@
 'use strict'
 
 const debug = require('debug')('snap-shot-it')
-const core = require('snap-shot-core')
+const { core, restore, prune } = require('snap-shot-core')
 const compare = require('snap-shot-compare')
 const { isDataDriven, dataDriven } = require('@bahmutov/data-driven')
 const { isNamedSnapshotArguments } = require('./named-snapshots')
 const R = require('ramda')
 const { hasOnly, hasFailed } = require('has-only')
+const pluralize = require('pluralize')
 
 debug('loading snap-shot-it')
 const EXTENSION = '.js'
@@ -15,8 +16,10 @@ const EXTENSION = '.js'
 const seenSpecs = []
 function _pruneSnapshots () {
   debug('pruning snapshots')
+  debug('seen %s', pluralize('spec', seenSpecs.length, true))
   debug(seenSpecs)
-  core.prune({ tests: seenSpecs, ext: EXTENSION })
+  prune({ tests: seenSpecs, ext: EXTENSION })
+
   // eslint-disable-next-line immutable/no-mutation
   seenSpecs.length = 0
 }
@@ -55,7 +58,7 @@ function clearCurrentTest () {
   if (currentTest) {
     const fullTitle = getTestTitle(currentTest)
     debug('clearing current test "%s"', fullTitle)
-    core.restore(getTestInfo(currentTest))
+    restore(getTestInfo(currentTest))
     currentTest = null
   }
 }

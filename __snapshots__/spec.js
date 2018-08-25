@@ -1,21 +1,3 @@
-exports['spec file adds 2 numbers 1'] = 5
-
-exports['spec file has several snapshot numbers 1'] = 1
-
-exports['spec file has several snapshot numbers 2'] = 2
-
-exports['spec file has several snapshot numbers 3'] = 3
-
-exports['spec file has several snapshot numbers 4'] = 4
-
-exports['spec file has several snapshot numbers 5'] = 5
-
-exports['spec file supports promises 1'] = 42
-
-exports['spec file inner tests works in nested describes 1'] = `
-foo
-`
-
 exports['example works 1'] = 30
 
 exports['example works 2'] = `
@@ -44,3 +26,21 @@ line 8
 line 9
 line 10
 `
+
+exports['spec file adds 2 numbers 1'] = 5
+
+exports['spec file has several snapshot numbers 1'] = 1
+
+exports['spec file has several snapshot numbers 2'] = 2
+
+exports['spec file has several snapshot numbers 3'] = 3
+
+exports['spec file has several snapshot numbers 4'] = 4
+
+exports['spec file has several snapshot numbers 5'] = 5
+
+exports['spec file inner tests works in nested describes 1'] = `
+foo
+`
+
+exports['spec file supports promises 1'] = 42
