@@ -11,6 +11,8 @@
         "npm prune",
         "npm run deps",
         "npm test",
+        "echo Testing as if this module was used on CI",
+        "CI=1 npm test",
         "npm run test-two-specs",
         "cd ts-demo; npm it",
         "cd coffee-demo; npm it",
@@ -80,7 +82,7 @@
     "secure": "nsp check",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "test": "npm run unit",
-    "unit": "mocha src/*spec.js",
+    "unit": "mocha src/data*spec.js",
     "watch": "npm run unit -- --watch",
     "semantic-release": "semantic-release",
     "test-two-specs": "mocha test/two-specs",
@@ -117,8 +119,9 @@
     "check-more-types": "2.24.0",
     "debug": "3.1.0",
     "has-only": "1.1.1",
+    "pluralize": "7.0.0",
     "ramda": "0.25.0",
     "snap-shot-compare": "2.7.1",
-    "snap-shot-core": "6.0.1"
+    "snap-shot-core": "7.1.0"
   }
 }

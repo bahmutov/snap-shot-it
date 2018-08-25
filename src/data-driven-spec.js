@@ -3,7 +3,7 @@ const { isDataDriven, dataDriven } = require('@bahmutov/data-driven')
 const la = require('lazy-ass')
 
 /* global describe, it */
-describe('data-driven testing', () => {
+describe.only('data-driven testing', () => {
   function isPrime (num) {
     // eslint-disable-next-line immutable/no-let
     for (let i = 2; i < num; i++) {
