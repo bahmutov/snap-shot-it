@@ -75,21 +75,21 @@
     "issues": "git-issues",
     "license": "license-checker --production --onlyunknown --csv",
     "lint": "standard --verbose --fix src/*.js",
+    "named-demo": "cd named-demo; mocha spec*.js",
     "postlint": "eslint --fix src/*.js",
     "prelint": "npm run pretty",
     "pretest": "npm run lint",
     "pretty": "prettier-standard 'src/*.js'",
-    "secure": "nsp check",
-    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
-    "test": "npm run unit",
-    "unit": "mocha src/data*spec.js",
-    "watch": "npm run unit -- --watch",
-    "semantic-release": "semantic-release",
-    "test-two-specs": "mocha test/two-specs",
-    "test-failing-hook": "mocha test/failing-hook",
     "prune-demo": "cd prune-demo; mocha spec.js",
-    "named-demo": "cd named-demo; mocha spec*.js",
-    "travis-deploy-once": "travis-deploy-once"
+    "secure": "nsp check",
+    "semantic-release": "semantic-release",
+    "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
+    "test-failing-hook": "mocha test/failing-hook",
+    "test-two-specs": "mocha test/two-specs",
+    "test": "npm run unit",
+    "travis-deploy-once": "travis-deploy-once",
+    "unit": "mocha src/*spec.js",
+    "watch": "npm run unit -- --watch"
   },
   "release": {
     "analyzeCommits": "simple-commit-message"
@@ -122,6 +122,6 @@
     "pluralize": "7.0.0",
     "ramda": "0.25.0",
     "snap-shot-compare": "2.7.1",
-    "snap-shot-core": "7.1.0"
+    "snap-shot-core": "7.1.1"
   }
 }
