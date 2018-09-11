@@ -117,7 +117,7 @@
   "dependencies": {
     "@bahmutov/data-driven": "1.0.0",
     "check-more-types": "2.24.0",
-    "debug": "3.2.3",
+    "debug": "4.0.0",
     "has-only": "1.1.1",
     "pluralize": "7.0.0",
     "ramda": "0.25.0",
