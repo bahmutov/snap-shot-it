@@ -97,7 +97,7 @@
   "devDependencies": {
     "ban-sensitive-files": "1.9.2",
     "common-tags": "1.8.0",
-    "dependency-check": "3.2.0",
+    "dependency-check": "3.2.1",
     "deps-ok": "1.4.1",
     "dont-crack": "1.2.1",
     "eslint": "5.5.0",
