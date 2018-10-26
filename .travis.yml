@@ -11,8 +11,8 @@ install:
 script:
   - npm test
   - DEBUG=snap-shot-it npm run test-two-specs
-  - cd ts-demo; npm it; ./node_modules/.bin/tsc; cd ..
-  - cd coffee-demo; npm it; cd ..
+  - npm run ts-demo
+  - npm run coffee-demo
 after_success:
   - npm run travis-deploy-once "npm run semantic-release"
 branches:
