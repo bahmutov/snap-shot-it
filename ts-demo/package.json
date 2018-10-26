@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ts-mocha spec.ts"
+    "test": "mocha -r ts-node/register spec.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +15,8 @@
   "devDependencies": {
     "@types/mocha": "5.2.5",
     "@types/node": "10.12.0",
-    "ts-mocha": "2.0.0",
+    "mocha": "5.2.0",
+    "ts-node": "7.0.1",
     "typescript": "3.1.3"
   }
 }
