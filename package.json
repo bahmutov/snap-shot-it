@@ -124,7 +124,7 @@
     "debug": "4.1.0",
     "has-only": "1.1.1",
     "pluralize": "7.0.0",
-    "ramda": "0.26.0",
+    "ramda": "0.26.1",
     "snap-shot-compare": "2.7.1",
     "snap-shot-core": "7.1.10"
   }
