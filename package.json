@@ -21,7 +21,6 @@
         "npm run ban"
       ],
       "pre-push": [
-        "npm run secure",
         "npm run license",
         "npm run ban -- --all",
         "npm run size"
@@ -85,7 +84,6 @@
     "pretest": "npm run lint",
     "pretty": "prettier-standard 'src/*.js'",
     "prune-demo": "cd prune-demo; mocha spec.js",
-    "secure": "nsp check",
     "semantic-release": "semantic-release",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "test-failing-hook": "mocha test/failing-hook",
@@ -110,7 +108,6 @@
     "lazy-ass": "1.6.0",
     "license-checker": "24.1.0",
     "mocha": "5.2.0",
-    "nsp": "3.2.1",
     "pre-git": "3.17.1",
     "prettier-standard": "8.0.1",
     "semantic-release": "15.13.3",
