@@ -106,6 +106,12 @@ You can update snapshot values
 SNAPSHOT_UPDATE=1 npm test
 ```
 
+By default, the snapshots are saved sorted alphabetically. You can skip sorting using an environment variable
+
+```bash
+SNAPSHOT_SKIP_SORTING=1 npm test
+```
+
 ## Named snapshots
 
 Renaming tests might lead to confusion and pruning snapshots. You can name the snapshots
