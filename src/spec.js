@@ -65,3 +65,13 @@ describe('multi line text', () => {
     snapshot(text)
   })
 })
+
+describe('multi line text with backticks', () => {
+  it('works and saves', () => {
+    snapshot(`
+      line 1
+      line 2 with \`42\`
+      line 3 with \`foo\`
+    `)
+  })
+})
