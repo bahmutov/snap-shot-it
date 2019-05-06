@@ -124,7 +124,7 @@ function snapshot (value) {
     dryRun: Boolean(process.env.SNAPSHOT_DRY),
     update: Boolean(process.env.SNAPSHOT_UPDATE),
     ci: Boolean(process.env.CI),
-    sortSnapshots: !process.env.SNAPSHOT_SKIP_SORTING
+    sortSnapshots: Boolean(process.env.SNAPSHOT_SORT)
   }
   const snap = {
     what: value,
