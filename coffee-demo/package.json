@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register spec.coffee"
+    "test": "mocha --require coffeescript/register spec.coffee"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "coffee-script": "1.12.7",
+    "coffeescript": "2.4.1",
     "mocha": "6.1.4"
   }
 }
