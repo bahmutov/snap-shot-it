@@ -10,7 +10,7 @@ const compare = ({ expected, value }) => {
   debug('aaas: %s', aaas)
   debug('expected value: %s', expected)
 
-  if (aaas === value) {
+  if (aaas === expected) {
     return Result.Ok()
   } else {
     return Result.Error({

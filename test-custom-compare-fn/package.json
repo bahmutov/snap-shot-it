@@ -11,7 +11,8 @@
   "license": "ISC",
   "config": {
     "snap-shot-it": {
-      "compare": "./compaaaaaare"
+      "compare": "./compaaaaaare",
+      "store": "./store"
     }
   }
 }

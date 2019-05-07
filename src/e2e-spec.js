@@ -174,7 +174,7 @@ describe('snapshots in same folder', () => {
   })
 })
 
-describe.only('custom compare function', () => {
+describe('custom compare function', () => {
   // folder with specs to run
   const sourceFolder = join(__dirname, '..', 'test-custom-compare-fn')
   // temp folder to copy to before running tests
@@ -198,7 +198,7 @@ describe.only('custom compare function', () => {
 
     checkSnapshots(tempFolder, {
       'spec.js': {
-        'a 1': 42
+        'random string as 10 As 1': '\naaaaaaaaaa\n'
       }
     })
 

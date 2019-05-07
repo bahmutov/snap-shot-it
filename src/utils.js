@@ -5,7 +5,8 @@ const debug = require('debug')('snap-shot-it')
 
 const defaults = {
   useRelativePath: false,
-  compare: null
+  compare: null,
+  store: null
 }
 /**
  * Pick only the keys we know about from whatever the user

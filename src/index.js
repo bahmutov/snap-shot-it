@@ -142,12 +142,14 @@ function snapshot (value) {
   const compare = opts.compare
     ? utils.load(cwd, opts.compare)
     : require('snap-shot-compare')
+  const store = opts.store ? utils.load(cwd, opts.store) : null
 
   const snap = {
     what: value,
     file: currentTest.file,
     ext: EXTENSION,
     compare,
+    store,
     opts
   }
 
