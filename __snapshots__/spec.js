@@ -6,6 +6,14 @@ a text message
 
 exports['example works 3'] = 42
 
+exports['multi line text with backticks works and saves 1'] = `
+
+      line 1
+      line 2 with \`42\`
+      line 3 with \`foo\`
+    
+`
+
 exports['multi line text works 1'] = `
 
       line 1

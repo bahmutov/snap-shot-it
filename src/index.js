@@ -118,11 +118,13 @@ function snapshot (value) {
     addToPrune(getTestInfo(currentTest))
   }
 
+  // grab options from environment variables
   const opts = {
     show: Boolean(process.env.SNAPSHOT_SHOW),
     dryRun: Boolean(process.env.SNAPSHOT_DRY),
     update: Boolean(process.env.SNAPSHOT_UPDATE),
-    ci: Boolean(process.env.CI)
+    ci: Boolean(process.env.CI),
+    sortSnapshots: Boolean(process.env.SNAPSHOT_SORT)
   }
   const snap = {
     what: value,
