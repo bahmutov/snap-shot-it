@@ -144,8 +144,13 @@ function snapshot (value) {
     : require('snap-shot-compare')
   const store = opts.store ? utils.load(cwd, opts.store) : null
 
+  const preCompare = opts['pre-compare']
+    ? utils.load(cwd, opts['pre-compare'])
+    : R.identity
+  const what = preCompare(value)
+
   const snap = {
-    what: value,
+    what,
     file: currentTest.file,
     ext: EXTENSION,
     compare,

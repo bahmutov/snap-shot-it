@@ -5,6 +5,7 @@ const debug = require('debug')('snap-shot-it')
 
 const defaults = {
   useRelativePath: false,
+  'pre-compare': null,
   compare: null,
   store: null
 }

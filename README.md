@@ -238,7 +238,27 @@ Run with environment variable `DEBUG=snap-shot-it ...` to see log messages.
 Because under the hood it uses [snap-shot-core][snap-shot-core] you might
 want to show messages from both libraries with `DEBUG=snap-shot* ...`
 
+## Data callbacks
 
+You can pass your own NPM modules as `pre-compare`, `compare` and `store` functions using `package.json`. For example, to use both local and 3rd party NPM modules
+
+```json
+{
+  "config": {
+    "snap-shot-it": {
+      "pre-compare": "./pre-compare",
+      "compare": "snap-shot-compare",
+      "store": "./store"
+    }
+  }
+}
+```
+
+Each NPM module in this case should export a definition of a function that matches the expected core function
+
+- `pre-compare` is simply an identity or transformation function
+- `compare` should match [snap-shot-core#compare-function](https://github.com/bahmutov/snap-shot-core#compare-function), for example see [snap-shot-compare](https://github.com/bahmutov/snap-shot-compare)
+- `store` is another identity or transformation function, see [snap-shot-core#store-function](https://github.com/bahmutov/snap-shot-core#store-function)
 
 ## Nested snapshots
 
