@@ -46,4 +46,15 @@ const load = (cwd, modulePath) => {
   }
 }
 
-module.exports = { getPackageConfigOptions, defaults, load }
+const isPruningDisabled = () => {
+  return (
+    Boolean(process.env.SNAPSHOT_SKIP_PRUNING) ||
+    Boolean(process.env.SNAPSHOT_SKIP_PRUNE) ||
+    Boolean(process.env.SNAPSHOT_NO_PRUNING) ||
+    Boolean(process.env.SNAPSHOT_NO_PRUNE) ||
+    Boolean(process.env.SNAPSHOT_STOP_PRUNING) ||
+    Boolean(process.env.SNAPSHOT_STOP_PRUNE)
+  )
+}
+
+module.exports = { getPackageConfigOptions, defaults, load, isPruningDisabled }

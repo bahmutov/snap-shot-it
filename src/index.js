@@ -72,6 +72,9 @@ global.beforeEach(function () {
   if (hasOnly(this)) {
     debug('skip pruning snapshots because found .only')
     pruneSnapshots = function noop () {}
+  } else if (utils.isPruningDisabled()) {
+    debug('skip pruning snapshots by env variable')
+    pruneSnapshots = function noop () {}
   } else {
     debug('will prune snapshots because no .only')
     pruneSnapshots = _pruneSnapshots

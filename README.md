@@ -132,7 +132,11 @@ exports['my name'] = 42
 
 ## Pruning
 
-If the test run is successful and executed _all_ tests (there was no `.only`) then snapshots without a test are pruned.
+If the test run is successful and executed _all_ tests (there was no `.only`) then snapshots without a test are pruned. You can skip pruning by running with environment variable
+
+```bash
+SNAPSHOT_SKIP_PRUNING=1 npm test
+```
 
 ## Data-driven testing
 
