@@ -106,11 +106,27 @@ You can update snapshot values
 SNAPSHOT_UPDATE=1 npm test
 ```
 
-If you want to sort saved snapshots alphabetically, run with
+## Sorted snapshots
+
+If you want to sort saved snapshots alphabetically inside each snapshot file, run with
 
 ```bash
 SNAPSHOT_SORT=1 npm test
 ```
+
+You can also set the config option in the package.json file
+
+```json
+{
+  "config": {
+    "snap-shot-it": {
+      "sortSnapshots": true
+    }
+  }
+}
+```
+
+Hopefully sorting snapshots would help when updating them.
 
 ## Named snapshots
 

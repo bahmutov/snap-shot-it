@@ -45,8 +45,13 @@ const checkSnapshots = (rootFolder, snapshots) => {
       'as file',
       filename
     )
+    // important: remove the loaded module from the cache to
+    // avoid a test using old data
     const loaded = require(filename)
+    delete require.cache[require.resolve(filename)]
+
     const expected = snapshots[expectedFilename]
+    // compare the values
     la(
       R.equals(loaded, expected),
       'in snapshot file',
@@ -55,6 +60,18 @@ const checkSnapshots = (rootFolder, snapshots) => {
       loaded,
       'from expected',
       expected
+    )
+    // compare the order of snapshots
+    const savedOrder = Object.keys(loaded)
+    const expectedOrder = Object.keys(expected)
+    la(
+      R.equals(savedOrder, expectedOrder),
+      'in snapshot file',
+      filename,
+      'the order of snapshots is',
+      savedOrder,
+      'but expected order of snapshots to be',
+      expectedOrder
     )
   })
 }
@@ -238,6 +255,83 @@ describe('custom pre-compare function', () => {
       'spec.js': {
         'stores string as number 1': 5,
         'stores string as number 2': 3
+      }
+    })
+
+    // run the tests again to check if values are not clashing
+    // but with CI=1 to avoid writing new files accidentally
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      env: { CI: '1' }
+    })
+  })
+})
+
+describe('sorted snapshots', () => {
+  // folder with specs to run
+  const sourceFolder = join(__dirname, '..', 'test-sorting')
+  // temp folder to copy to before running tests
+  const tempFolder = join(__dirname, '..', 'temp-sorting')
+
+  beforeEach(() => {
+    copyFolder(sourceFolder, tempFolder)
+  })
+
+  it('does not sort by default', function () {
+    this.timeout(5000)
+
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: limitedEnv,
+      extendEnv: false
+    })
+
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        zz: 3,
+        bb: 2,
+        aa: 1
+      }
+    })
+
+    // run the tests again to check if values are not clashing
+    // but with CI=1 to avoid writing new files accidentally
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      env: { CI: '1' }
+    })
+  })
+
+  it('sorts with config parameter', function () {
+    this.timeout(5000)
+
+    const packageFilename = join(tempFolder, 'package.json')
+    const pkg = JSON.parse(fs.readFileSync(packageFilename, 'utf8'))
+    pkg.config['snap-shot-it'] = {
+      sortSnapshots: true
+    }
+    fs.writeFileSync(packageFilename, JSON.stringify(pkg, null, 2), 'utf8')
+
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: limitedEnv,
+      extendEnv: false
+    })
+
+    // now the snapshots should be sorted
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        aa: 1,
+        bb: 2,
+        zz: 3
       }
     })
 

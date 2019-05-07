@@ -7,7 +7,8 @@ const defaults = {
   useRelativePath: false,
   'pre-compare': null,
   compare: null,
-  store: null
+  store: null,
+  sortSnapshots: false
 }
 /**
  * Pick only the keys we know about from whatever the user
