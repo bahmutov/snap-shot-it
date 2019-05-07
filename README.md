@@ -238,6 +238,41 @@ Run with environment variable `DEBUG=snap-shot-it ...` to see log messages.
 Because under the hood it uses [snap-shot-core][snap-shot-core] you might
 want to show messages from both libraries with `DEBUG=snap-shot* ...`
 
+
+
+## Nested snapshots
+
+By default, all snapshots are stored in the same folder `__snapshots__`, which can lead to name clashes. You can set an option in your package.json file to create a nested folder structure inside `__snapshots__` folder that mimics the spec structure. Use `config > snap-shot-it` object in the package.json file.
+
+```json
+{
+  "config": {
+    "snap-shot-it": {
+      "useRelativePath": true
+    }
+  }
+}
+```
+
+input spec files
+
+```
+specs/
+  spec.js
+  subfolder/
+    spec2.js
+```
+
+result should be
+
+```
+__snapshots__/
+  specs/
+    spec.js
+    subfolder/
+      spec2.js
+```
+
 ## Examples
 
 ### TypeScript
