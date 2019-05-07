@@ -86,6 +86,7 @@ const copyFolder = (sourceFolder, tempFolder) => {
   shell.rm('-rf', tempFolder)
   shell.mkdir(tempFolder)
   shell.cp(join(sourceFolder, 'package.json'), tempFolder)
+  shell.cp(join(sourceFolder, '*.js'), tempFolder)
   shell.cp('-R', join(sourceFolder, 'specs'), tempFolder)
 }
 
@@ -160,6 +161,44 @@ describe('snapshots in same folder', () => {
       },
       'spec2.js': {
         'b 1': 50
+      }
+    })
+
+    // run the tests again to check if values are not clashing
+    // but with CI=1 to avoid writing new files accidentally
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      env: { CI: '1' }
+    })
+  })
+})
+
+describe.only('custom compare function', () => {
+  // folder with specs to run
+  const sourceFolder = join(__dirname, '..', 'test-custom-compare-fn')
+  // temp folder to copy to before running tests
+  const tempFolder = join(__dirname, '..', 'temp-custom-compare-fn')
+
+  beforeEach(() => {
+    copyFolder(sourceFolder, tempFolder)
+  })
+
+  it('transforms value before comparison', function () {
+    this.timeout(5000)
+
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: limitedEnv,
+      extendEnv: false
+    })
+
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        'a 1': 42
       }
     })
 
