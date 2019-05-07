@@ -36,14 +36,8 @@
     "env": {
       "es6": true
     },
-    "plugins": [
-      "immutable"
-    ],
     "rules": {
-      "no-var": 2,
-      "immutable/no-let": 2,
-      "immutable/no-this": 2,
-      "immutable/no-mutation": 2
+      "no-var": 2
     }
   },
   "files": [
@@ -89,7 +83,6 @@
     "test-failing-hook": "mocha test/failing-hook",
     "test-two-specs": "mocha test/two-specs",
     "test": "npm run unit",
-    "travis-deploy-once": "travis-deploy-once",
     "unit": "mocha src/*spec.js",
     "watch": "npm run unit -- --watch"
   },
@@ -113,7 +106,6 @@
     "semantic-release": "15.13.3",
     "simple-commit-message": "4.0.3",
     "standard": "12.0.1",
-    "travis-deploy-once": "5.0.11"
   },
   "dependencies": {
     "@bahmutov/data-driven": "1.0.0",
@@ -123,6 +115,6 @@
     "pluralize": "7.0.0",
     "ramda": "0.26.1",
     "snap-shot-compare": "2.7.1",
-    "snap-shot-core": "8.0.3"
+    "snap-shot-core": "8.1.0"
   }
 }
