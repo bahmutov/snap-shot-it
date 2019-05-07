@@ -36,14 +36,8 @@
     "env": {
       "es6": true
     },
-    "plugins": [
-      "immutable"
-    ],
     "rules": {
-      "no-var": 2,
-      "immutable/no-let": 2,
-      "immutable/no-this": 2,
-      "immutable/no-mutation": 2
+      "no-var": 2
     }
   },
   "files": [
