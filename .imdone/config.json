@@ -26,6 +26,10 @@
     {
       "name": "HELP",
       "hidden": false
+    },
+    {
+      "name": "TODO",
+      "hidden": false
     }
   ],
   "marked": {
