@@ -1,9 +1,13 @@
 const fs = require('fs')
 const path = require('path')
 const R = require('ramda')
+const debug = require('debug')('snap-shot-it')
 
 const defaults = {
-  useRelativePath: false
+  useRelativePath: false,
+  'pre-compare': null,
+  compare: null,
+  store: null
 }
 /**
  * Pick only the keys we know about from whatever the user
@@ -30,4 +34,16 @@ const getPackageConfigOptions = cwd => {
   return pickKnownKeys(options)
 }
 
-module.exports = { getPackageConfigOptions, defaults }
+const load = (cwd, modulePath) => {
+  debug('loading module %s from cwd %s', modulePath, cwd)
+  if (!path.isAbsolute(modulePath)) {
+    const resolved = path.resolve(cwd, modulePath)
+    debug('resolved path: %s', resolved)
+    return require(resolved)
+  } else {
+    debug('trying to load NPM module %s', modulePath)
+    return require(modulePath)
+  }
+}
+
+module.exports = { getPackageConfigOptions, defaults, load }

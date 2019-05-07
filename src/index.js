@@ -2,7 +2,6 @@
 
 const debug = require('debug')('snap-shot-it')
 const { core, restore, prune } = require('snap-shot-core')
-const compare = require('snap-shot-compare')
 const { isDataDriven, dataDriven } = require('@bahmutov/data-driven')
 const { isNamedSnapshotArguments } = require('./named-snapshots')
 const utils = require('./utils')
@@ -140,11 +139,22 @@ function snapshot (value) {
   debug('package config options %o', packageConfigOptions)
   debug('merged options %o', opts)
 
+  const compare = opts.compare
+    ? utils.load(cwd, opts.compare)
+    : require('snap-shot-compare')
+  const store = opts.store ? utils.load(cwd, opts.store) : null
+
+  const preCompare = opts['pre-compare']
+    ? utils.load(cwd, opts['pre-compare'])
+    : R.identity
+  const what = preCompare(value)
+
   const snap = {
-    what: value,
+    what,
     file: currentTest.file,
     ext: EXTENSION,
     compare,
+    store,
     opts
   }
 

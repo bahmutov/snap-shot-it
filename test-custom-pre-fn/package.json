@@ -1,0 +1,17 @@
+{
+  "name": "test-custom-pre-fn",
+  "version": "1.0.0",
+  "description": "shows custom pre-compare function",
+  "main": "index.js",
+  "scripts": {
+    "test": "../node_modules/.bin/mocha 'specs/**/*.js'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "config": {
+    "snap-shot-it": {
+      "pre-compare": "./pre-compare"
+    }
+  }
+}
