@@ -131,3 +131,44 @@ describe('snapshots in subfolders', () => {
     })
   })
 })
+
+describe('snapshots in same folder', () => {
+  // folder with specs to run
+  const sourceFolder = join(__dirname, '..', 'test-flat-specs')
+  // temp folder to copy to before running tests
+  const tempFolder = join(__dirname, '..', 'temp-test-flat-specs')
+
+  beforeEach(() => {
+    copyFolder(sourceFolder, tempFolder)
+  })
+
+  it('saves all snapshots in same folder', function () {
+    this.timeout(5000)
+
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: limitedEnv,
+      extendEnv: false
+    })
+
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        'a 1': 42
+      },
+      'spec2.js': {
+        'b 1': 50
+      }
+    })
+
+    // run the tests again to check if values are not clashing
+    // but with CI=1 to avoid writing new files accidentally
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      env: { CI: '1' }
+    })
+  })
+})
