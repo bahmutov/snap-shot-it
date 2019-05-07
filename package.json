@@ -89,7 +89,6 @@
     "test-failing-hook": "mocha test/failing-hook",
     "test-two-specs": "mocha test/two-specs",
     "test": "npm run unit",
-    "travis-deploy-once": "travis-deploy-once",
     "unit": "mocha src/*spec.js",
     "watch": "npm run unit -- --watch"
   },
@@ -112,8 +111,7 @@
     "prettier-standard": "8.0.1",
     "semantic-release": "15.13.3",
     "simple-commit-message": "4.0.3",
-    "standard": "11.0.1",
-    "travis-deploy-once": "5.0.11"
+    "standard": "11.0.1"
   },
   "dependencies": {
     "@bahmutov/data-driven": "1.0.0",
