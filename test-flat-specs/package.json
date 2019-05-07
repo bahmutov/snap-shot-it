@@ -1,0 +1,12 @@
+{
+  "name": "test-flat-specs",
+  "version": "1.0.0",
+  "description": "shows how snapshots are saved for flat projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "../node_modules/.bin/mocha 'specs/**/*.js'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

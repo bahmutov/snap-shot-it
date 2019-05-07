@@ -1,0 +1,17 @@
+{
+  "name": "test-nested-specs",
+  "version": "1.0.0",
+  "description": "shows how snapshots are saved for nested projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "../node_modules/.bin/mocha 'specs/**/*.js'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "config": {
+    "snap-shot-it": {
+      "useRelativePath": true
+    }
+  }
+}

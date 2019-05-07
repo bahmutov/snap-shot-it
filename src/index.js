@@ -5,9 +5,14 @@ const { core, restore, prune } = require('snap-shot-core')
 const compare = require('snap-shot-compare')
 const { isDataDriven, dataDriven } = require('@bahmutov/data-driven')
 const { isNamedSnapshotArguments } = require('./named-snapshots')
+const utils = require('./utils')
 const R = require('ramda')
 const { hasOnly, hasFailed } = require('has-only')
 const pluralize = require('pluralize')
+
+// save current directory right away to avoid any surprises later
+// when some random tests change it
+const cwd = process.cwd()
 
 debug('loading snap-shot-it')
 const EXTENSION = '.js'
@@ -119,13 +124,22 @@ function snapshot (value) {
   }
 
   // grab options from environment variables
-  const opts = {
+  const envOptions = {
     show: Boolean(process.env.SNAPSHOT_SHOW),
     dryRun: Boolean(process.env.SNAPSHOT_DRY),
     update: Boolean(process.env.SNAPSHOT_UPDATE),
-    ci: Boolean(process.env.CI),
-    sortSnapshots: Boolean(process.env.SNAPSHOT_SORT)
+    ci: Boolean(process.env.CI)
   }
+  if ('SNAPSHOT_SORT' in process.env) {
+    envOptions.sortSnapshots = Boolean(process.env.SNAPSHOT_SORT)
+  }
+
+  const packageConfigOptions = utils.getPackageConfigOptions(cwd)
+  const opts = R.mergeRight(packageConfigOptions, envOptions)
+  debug('environment options %o', envOptions)
+  debug('package config options %o', packageConfigOptions)
+  debug('merged options %o', opts)
+
   const snap = {
     what: value,
     file: currentTest.file,
