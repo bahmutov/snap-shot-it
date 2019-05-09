@@ -4,5 +4,10 @@
   "major": {
     "automerge": false
   },
-  "lockFileMaintenance": true
+  "lockFileMaintenance": true,
+  "timezone": "America/New_York",
+  "schedule": [
+    "every weekend"
+  ],
+  "masterIssue": true
 }
