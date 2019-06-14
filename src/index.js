@@ -9,6 +9,7 @@ const R = require('ramda')
 const { hasOnly, hasFailed } = require('has-only')
 const pluralize = require('pluralize')
 const la = require('lazy-ass')
+const is = require('check-more-types')
 
 // save current directory right away to avoid any surprises later
 // when some random tests change it
@@ -17,7 +18,13 @@ const cwd = process.cwd()
 debug('loading snap-shot-it')
 const EXTENSION = '.js'
 
-// all tests we have seen so we can prune later
+/**
+ * all tests we have seen so we can prune later
+ * for each seen spec we keep just an object
+ * { file, key }
+ * where key is the full name of the saved snapshot
+ * so in the list there might be multiple key
+ */
 const seenSpecs = []
 function _pruneSnapshots () {
   debug('pruning snapshots')
@@ -32,7 +39,18 @@ function _pruneSnapshots () {
 // eslint-disable-next-line immutable/no-let
 let pruneSnapshots
 
+/**
+ * Returns true if the object has information enough
+ * to prune snapshots later.
+ */
+const isPruneInfo = is.schema({
+  specFile: is.unemptyString,
+  key: is.unemptyString
+})
+
 function addToPrune (info) {
+  la(isPruneInfo(info), 'wrong info for pruning snapshot', info)
+
   // do not add if previous info is the same
   if (R.equals(R.last(seenSpecs), info)) {
     return
@@ -112,18 +130,12 @@ function snapshot (value) {
     savedTestTitle += ' ' + value.name
     debug('extended save name to include function name')
     debug('snapshot name "%s"', savedTestTitle)
-    addToPrune(getTestInfo(currentTest))
   } else if (isNamedSnapshotArguments(arguments)) {
     savedTestTitle = arguments[0]
     value = arguments[1]
     debug('named snapshots "%s"', savedTestTitle)
-    addToPrune({
-      file: currentTest.file,
-      specName: savedTestTitle
-    })
   } else {
     debug('snapshot value %j', value)
-    addToPrune(getTestInfo(currentTest))
   }
 
   // grab options from environment variables
@@ -175,6 +187,11 @@ function snapshot (value) {
   // there should be value and snapshot name (key)
   la('value' in coreResult, 'core result should have value', coreResult)
   la('key' in coreResult, 'core result should have key', coreResult)
+
+  addToPrune({
+    specFile: currentTest.file,
+    key: coreResult.key
+  })
 
   return coreResult
 }
