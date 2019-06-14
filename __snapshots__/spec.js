@@ -52,3 +52,11 @@ foo
 `
 
 exports['spec file supports promises 1'] = 42
+
+exports['my name'] = 42
+
+exports['spec file uses spec name 1'] = 42
+
+exports['spec file uses spec name 2'] = `
+foo
+`

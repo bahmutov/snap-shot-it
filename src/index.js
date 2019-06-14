@@ -8,6 +8,7 @@ const utils = require('./utils')
 const R = require('ramda')
 const { hasOnly, hasFailed } = require('has-only')
 const pluralize = require('pluralize')
+const la = require('lazy-ass')
 
 // save current directory right away to avoid any surprises later
 // when some random tests change it
@@ -169,7 +170,13 @@ function snapshot (value) {
     snap.specName = savedTestTitle
   }
 
-  return core(snap)
+  const coreResult = core(snap)
+  debug('core result %o', coreResult)
+  // there should be value and snapshot name (key)
+  la('value' in coreResult, 'core result should have value', coreResult)
+  la('key' in coreResult, 'core result should have key', coreResult)
+
+  return coreResult
 }
 
 /* eslint-disable immutable/no-mutation */

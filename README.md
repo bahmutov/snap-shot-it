@@ -86,6 +86,15 @@ The test will fail
 The error message should intelligently handle numbers, objects, arrays,
 multi-line text, etc.
 
+## Returned value
+
+The returned value includes saved value (after any transformations) and saved snapshot name. Usually it is spec name + index, or could be exact name
+
+```js
+const out = snapshot('my name', 42)
+// {value: 42, key: 'my name'}
+```
+
 ## Advanced use
 
 You can see the saves snapshot values by running with environment variable
