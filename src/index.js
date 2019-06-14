@@ -206,23 +206,59 @@ function snapshot (value) {
     snap.specName = savedTestTitle
   }
 
-  debug('about to compare')
-  const coreResult = core(snap)
-  debug('core result %o', coreResult)
+  let coreResult
+  try {
+    debug('about to compare')
+    coreResult = core(snap)
+    debug('core result %o', coreResult)
 
-  // there should be value and snapshot name (key)
-  la('value' in coreResult, 'core result should have value', coreResult)
-  la('key' in coreResult, 'core result should have key', coreResult)
-  const pruneInfo = {
-    specFile: currentTest.file,
-    key: coreResult.key,
-    // hmm, we probably need to keep parts of the test title separate
-    // so instead of "foo bar" it would be ["foo", "bar"]
-    testTitle: fullTitle
+    // there should be value and snapshot name (key)
+    la('value' in coreResult, 'core result should have value', coreResult)
+    la('key' in coreResult, 'core result should have key', coreResult)
+
+    const pruneInfo = {
+      specFile: currentTest.file,
+      key: coreResult.key,
+      // hmm, we probably need to keep parts of the test title separate
+      // so instead of "foo bar" it would be ["foo", "bar"]
+      testTitle: fullTitle
+    }
+    debug('prune info %o', pruneInfo)
+
+    addToPrune(pruneInfo)
+  } catch (e) {
+    if (e.key) {
+      debug('value comparison exception')
+      // maybe it is due to a duplicate snapshot key?
+      // maybe two different tests save snapshots with same name like
+      //
+      // it('a', () => {
+      //   snapshot('foo', 1)
+      // })
+      // it('b', () => {
+      //   snapshot('foo', 42)
+      // })
+      //
+      // check if we have a collision
+      const info = {
+        specFile: currentTest.file,
+        key: e.key,
+        testTitle: fullTitle
+      }
+      const prevInfo = findExistingSnapshotKey(info)
+      if (prevInfo) {
+        debug('found duplicate snapshot name: %s', prevInfo.key)
+        console.error(
+          'Snapshot error was caused by the duplicate snapshot name'
+        )
+        throwDuplicateSnapshotKeyError(info, prevInfo)
+      }
+    }
+
+    debug('not a snapshot key collision')
+    throw e
   }
-  debug('prune info %o', pruneInfo)
 
-  addToPrune(pruneInfo)
   return coreResult
 }
 
