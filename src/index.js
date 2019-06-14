@@ -12,6 +12,7 @@ const la = require('lazy-ass')
 const is = require('check-more-types')
 const { stripIndent } = require('common-tags')
 const path = require('path')
+const itsName = require('its-name')
 
 // save current directory right away to avoid any surprises later
 // when some random tests change it
@@ -49,7 +50,8 @@ let pruneSnapshots
 const isPruneInfo = is.schema({
   specFile: is.unemptyString,
   key: is.unemptyString,
-  testTitle: is.unemptyString
+  testTitle: is.unemptyString,
+  titleParts: is.strings
 })
 
 function addToPrune (info) {
@@ -76,8 +78,9 @@ const throwDuplicateSnapshotKeyError = (current, previous) => {
   throw new Error(stripIndent`
     Duplicate snapshot key "${current.key}"
     in spec file: ${relativeToCwd(current.specFile)}
-    test title: ${current.testTitle}
-    previous test title: ${previous.testTitle}
+    current test title: "${current.testTitle}"
+    current test title in parts: ${current.titleParts.join(' - ')}
+    previous test title in parts: ${previous.titleParts.join(' - ')}
     Please change the snapshot name to ensure uniqueness.
   `)
 }
@@ -92,7 +95,27 @@ function setTest (t) {
   currentTest = t
 }
 
+/**
+ * Returns full title of the test.
+ * Usually it is just a single string, concatenated from the root
+ * suite all the way to the test title.
+ *
+  ```
+  describe('foo', () => {
+    context('bar', () => {
+      it('works', () => {
+        // test title is "foo bar works"
+      })
+    })
+  })
+  ```
+ */
 const getTestTitle = test => test.fullTitle().trim()
+
+/**
+ * Returns individual parts of the test title, starting from the outer suite
+ */
+const getTestTitleParts = itsName
 
 const getTestInfo = test => {
   return {
@@ -141,8 +164,21 @@ function snapshot (value) {
   }
 
   const fullTitle = getTestTitle(currentTest)
+  la(
+    is.unemptyString(fullTitle),
+    'could not get full title from test',
+    currentTest
+  )
   debug('snapshot in test "%s"', fullTitle)
   debug('from file "%s"', currentTest.file)
+
+  const fullTitleParts = getTestTitleParts(currentTest)
+  la(
+    is.strings(fullTitleParts),
+    'could not get test title strings',
+    currentTest
+  )
+  debug('full title in parts %o', fullTitleParts)
 
   // eslint-disable-next-line immutable/no-let
   let savedTestTitle = fullTitle
@@ -206,6 +242,13 @@ function snapshot (value) {
     snap.specName = savedTestTitle
   }
 
+  const snapshotInfo = {
+    specFile: currentTest.file,
+    testTitle: fullTitle, // a single string like "suite test"
+    titleParts: fullTitleParts // list of titles like ["suite", "test"]
+    // just missing "key" which is determined in the snap-shot-core
+  }
+
   let coreResult
   try {
     debug('about to compare')
@@ -216,13 +259,7 @@ function snapshot (value) {
     la('value' in coreResult, 'core result should have value', coreResult)
     la('key' in coreResult, 'core result should have key', coreResult)
 
-    const pruneInfo = {
-      specFile: currentTest.file,
-      key: coreResult.key,
-      // hmm, we probably need to keep parts of the test title separate
-      // so instead of "foo bar" it would be ["foo", "bar"]
-      testTitle: fullTitle
-    }
+    const pruneInfo = R.assoc('key', coreResult.key, snapshotInfo)
     debug('prune info %o', pruneInfo)
 
     addToPrune(pruneInfo)
@@ -240,11 +277,9 @@ function snapshot (value) {
       // })
       //
       // check if we have a collision
-      const info = {
-        specFile: currentTest.file,
-        key: e.key,
-        testTitle: fullTitle
-      }
+      const info = R.assoc('key', e.key, snapshotInfo)
+      debug('current snapshot info %o', info)
+
       const prevInfo = findExistingSnapshotKey(info)
       if (prevInfo) {
         debug('found duplicate snapshot name: %s', prevInfo.key)
