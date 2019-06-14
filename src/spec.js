@@ -1,10 +1,31 @@
 const snapshot = require('.')
 const { stripIndent } = require('common-tags')
 const la = require('lazy-ass')
+const R = require('ramda')
 
 const add = (a, b) => a + b
 
 /* eslint-env mocha */
+describe('find object by property', () => {
+  it('using Ramda', () => {
+    const list = [
+      {
+        a: 1,
+        b: 1
+      },
+      {
+        a: 2,
+        b: 2
+      }
+    ]
+    const item = {
+      b: 2
+    }
+    const found = R.find(R.propEq('b', item.b), list)
+    la(found === list[1], 'found wrong item', found)
+  })
+})
+
 describe('spec file', () => {
   it('returns saved value and snapshot key', () => {
     const result = snapshot('my name', 42)

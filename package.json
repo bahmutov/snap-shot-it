@@ -91,7 +91,6 @@
   },
   "devDependencies": {
     "ban-sensitive-files": "1.9.2",
-    "common-tags": "1.8.0",
     "dependency-check": "3.3.0",
     "deps-ok": "1.4.1",
     "dont-crack": "1.2.1",
@@ -110,12 +109,13 @@
   "dependencies": {
     "@bahmutov/data-driven": "1.0.0",
     "check-more-types": "2.24.0",
+    "common-tags": "1.8.0",
     "debug": "4.1.1",
     "has-only": "1.1.1",
     "lazy-ass": "1.6.0",
     "pluralize": "7.0.0",
     "ramda": "0.26.1",
     "snap-shot-compare": "2.8.3",
-    "snap-shot-core": "10.0.0"
+    "snap-shot-core": "10.1.0"
   }
 }

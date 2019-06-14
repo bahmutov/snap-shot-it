@@ -10,10 +10,13 @@ const { hasOnly, hasFailed } = require('has-only')
 const pluralize = require('pluralize')
 const la = require('lazy-ass')
 const is = require('check-more-types')
+const { stripIndent } = require('common-tags')
+const path = require('path')
 
 // save current directory right away to avoid any surprises later
 // when some random tests change it
 const cwd = process.cwd()
+const relativeToCwd = path.relative.bind(null, cwd)
 
 debug('loading snap-shot-it')
 const EXTENSION = '.js'
@@ -45,17 +48,38 @@ let pruneSnapshots
  */
 const isPruneInfo = is.schema({
   specFile: is.unemptyString,
-  key: is.unemptyString
+  key: is.unemptyString,
+  testTitle: is.unemptyString
 })
 
 function addToPrune (info) {
   la(isPruneInfo(info), 'wrong info for pruning snapshot', info)
 
-  // do not add if previous info is the same
-  if (R.equals(R.last(seenSpecs), info)) {
-    return
+  const prevInfo = findExistingSnapshotKey(info)
+  if (prevInfo) {
+    debug('found duplicate snapshot name: %s', prevInfo.key)
+    throwDuplicateSnapshotKeyError(info, prevInfo)
   }
+
   seenSpecs.push(info)
+}
+
+const findExistingSnapshotKey = info => {
+  la(isPruneInfo(info), 'wrong snapshot info', info)
+  return R.find(R.propEq('key', info.key))(seenSpecs)
+}
+
+const throwDuplicateSnapshotKeyError = (current, previous) => {
+  la(isPruneInfo(current), 'wrong current snapshot info', current)
+  la(isPruneInfo(previous), 'wrong previous snapshot info', previous)
+
+  throw new Error(stripIndent`
+    Duplicate snapshot key "${current.key}"
+    in spec file: ${relativeToCwd(current.specFile)}
+    test title: ${current.testTitle}
+    previous test title: ${previous.testTitle}
+    Please change the snapshot name to ensure uniqueness.
+  `)
 }
 
 // eslint-disable-next-line immutable/no-let
@@ -182,17 +206,23 @@ function snapshot (value) {
     snap.specName = savedTestTitle
   }
 
+  debug('about to compare')
   const coreResult = core(snap)
   debug('core result %o', coreResult)
+
   // there should be value and snapshot name (key)
   la('value' in coreResult, 'core result should have value', coreResult)
   la('key' in coreResult, 'core result should have key', coreResult)
-
-  addToPrune({
+  const pruneInfo = {
     specFile: currentTest.file,
-    key: coreResult.key
-  })
+    key: coreResult.key,
+    // hmm, we probably need to keep parts of the test title separate
+    // so instead of "foo bar" it would be ["foo", "bar"]
+    testTitle: fullTitle
+  }
+  debug('prune info %o', pruneInfo)
 
+  addToPrune(pruneInfo)
   return coreResult
 }
 
