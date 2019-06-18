@@ -4,6 +4,7 @@ const la = require('lazy-ass')
 const fs = require('fs')
 const R = require('ramda')
 const execa = require('execa')
+const { stripIndent } = require('common-tags')
 
 /* eslint-env mocha */
 /**
@@ -341,6 +342,75 @@ describe('sorted snapshots', () => {
       cwd: tempFolder,
       stdio: 'inherit',
       env: { CI: '1' }
+    })
+  })
+})
+
+describe('no sorting when pruning', () => {
+  // folder with specs to run
+  const sourceFolder = join(__dirname, '..', 'test-pruning')
+  // temp folder to copy to before running tests
+  const tempFolder = join(__dirname, '..', 'temp-pruning')
+
+  beforeEach(() => {
+    copyFolder(sourceFolder, tempFolder)
+  })
+
+  it('does not sort snapshots when pruning', function () {
+    this.timeout(10000)
+
+    // first, creates the snapshot
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: limitedEnv,
+      extendEnv: false
+    })
+
+    // note that the saved snapshots are NOT sorted
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        zz: 3,
+        bb: 2,
+        aa: 1
+      }
+    })
+
+    // now run again, but disable middle snapshot
+    const specFilename = join(tempFolder, 'specs', 'spec.js')
+    console.log('updating spec file', specFilename)
+
+    const withoutMiddleSnapshot = stripIndent`
+      const snapshot = require('../..')
+
+      /* eslint-env mocha */
+      it('has names in reverse order', () => {
+        // notice that snapshots are named NOT in sorted order
+        snapshot('zz', 3)
+        // disable middle snapshot
+        // snapshot('bb', 2)
+        snapshot('aa', 1)
+      })
+    `
+    fs.writeFileSync(specFilename, withoutMiddleSnapshot + '\n')
+
+    // run tests again and the snapshot should be pruned but keep same order of snapshots
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: limitedEnv,
+      extendEnv: false
+    })
+
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        zz: 3,
+        aa: 1
+      }
     })
   })
 })
