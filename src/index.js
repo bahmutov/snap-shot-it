@@ -201,7 +201,10 @@ function snapshot (value) {
 
   // grab options from environment variables
   const envOptions = {
-    // TODO cast '0' as false
+    // TODO cast '0' as false id:6
+// - <https://github.com/bahmutov/snap-shot-it/issues/376>
+// Gleb Bahmutov
+// gleb.bahmutov@gmail.com
     show: Boolean(process.env.SNAPSHOT_SHOW),
     dryRun: Boolean(process.env.SNAPSHOT_DRY),
     update: Boolean(process.env.SNAPSHOT_UPDATE),
