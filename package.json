@@ -117,6 +117,6 @@
     "pluralize": "8.0.0",
     "ramda": "0.26.1",
     "snap-shot-compare": "2.8.3",
-    "snap-shot-core": "10.1.0"
+    "snap-shot-core": "10.1.1"
   }
 }

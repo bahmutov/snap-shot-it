@@ -34,7 +34,7 @@ function _pruneSnapshots () {
   debug('pruning snapshots')
   debug('seen %s', pluralize('spec', seenSpecs.length, true))
   debug(seenSpecs)
-  prune({ tests: seenSpecs, ext: EXTENSION })
+  prune({ tests: seenSpecs, ext: EXTENSION }, pruneSnapshotsOptions)
 
   // eslint-disable-next-line immutable/no-mutation
   seenSpecs.length = 0
@@ -42,6 +42,7 @@ function _pruneSnapshots () {
 
 // eslint-disable-next-line immutable/no-let
 let pruneSnapshots
+let pruneSnapshotsOptions
 
 /**
  * Returns true if the object has information enough
@@ -200,20 +201,33 @@ function snapshot (value) {
 
   // grab options from environment variables
   const envOptions = {
+    // TODO cast '0' as false
     show: Boolean(process.env.SNAPSHOT_SHOW),
     dryRun: Boolean(process.env.SNAPSHOT_DRY),
     update: Boolean(process.env.SNAPSHOT_UPDATE),
     ci: Boolean(process.env.CI)
   }
   if ('SNAPSHOT_SORT' in process.env) {
-    envOptions.sortSnapshots = Boolean(process.env.SNAPSHOT_SORT)
+    if (process.env.SNAPSHOT_SORT === '0') {
+      envOptions.sortSnapshots = false
+    } else {
+      envOptions.sortSnapshots = Boolean(process.env.SNAPSHOT_SORT)
+    }
   }
 
+  const defaultOptions = {
+    sortSnapshots: false,
+    useRelativePath: false
+  }
   const packageConfigOptions = utils.getPackageConfigOptions(cwd)
-  const opts = R.mergeRight(packageConfigOptions, envOptions)
+  const opts = R.mergeRight(defaultOptions, packageConfigOptions, envOptions)
   debug('environment options %o', envOptions)
   debug('package config options %o', packageConfigOptions)
   debug('merged options %o', opts)
+
+  // for pruning we only need a few options
+  pruneSnapshotsOptions = R.pick(['sortSnapshots', 'useRelativePath'], opts)
+  debug('prune options %o', pruneSnapshotsOptions)
 
   const compare = opts.compare
     ? utils.load(cwd, opts.compare)
