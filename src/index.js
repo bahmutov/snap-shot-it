@@ -218,12 +218,25 @@ function snapshot (value) {
     }
   }
 
+  // note: we need to provide default values for ALL keys
   const defaultOptions = {
+    show: false,
+    dryRun: false,
+    update: false,
+    ci: false,
     sortSnapshots: false,
-    useRelativePath: false
+    useRelativePath: false,
+    // callback functions that will be set later
+    'pre-compare': R.noop,
+    compare: R.noop,
+    store: R.noop
   }
   const packageConfigOptions = utils.getPackageConfigOptions(cwd)
-  const opts = R.mergeRight(defaultOptions, packageConfigOptions, envOptions)
+  const opts = utils.mergeConfigOptions(
+    defaultOptions,
+    packageConfigOptions,
+    envOptions
+  )
   debug('environment options %o', envOptions)
   debug('package config options %o', packageConfigOptions)
   debug('merged options %o', opts)

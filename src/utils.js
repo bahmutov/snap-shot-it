@@ -1,7 +1,10 @@
 const fs = require('fs')
 const path = require('path')
 const R = require('ramda')
+const la = require('lazy-ass')
+const is = require('check-more-types')
 const debug = require('debug')('snap-shot-it')
+const { commaLists } = require('common-tags')
 
 const defaults = {
   useRelativePath: false,
@@ -58,4 +61,43 @@ const isPruningDisabled = () => {
   )
 }
 
-module.exports = { getPackageConfigOptions, defaults, load, isPruningDisabled }
+/**
+ * Merges all default configuration options with config specified in the package.json
+ * and with config options extracted from the environment variables.
+ *
+ * Note: will throw an error if the package options or environment options
+ * have keys NOT listed in the defaults.
+ */
+const mergeConfigOptions = (defaults, packageOptions, envOptions) => {
+  la(is.object(defaults), 'expected defaults to be an object', defaults)
+  la(
+    is.object(packageOptions),
+    'expected package config options to be an object',
+    packageOptions
+  )
+  la(is.object(envOptions), 'expected env options to be an object', envOptions)
+
+  const defaultKeys = R.keys(defaults)
+  const newKeys = R.uniq(R.concat(R.keys(packageOptions), R.keys(envOptions)))
+  const unknownKeys = R.difference(newKeys, defaultKeys)
+  if (unknownKeys.length) {
+    debug('default options specifies keys %o', defaultKeys)
+    debug('package options keys %o', R.keys(packageOptions))
+    debug('environment options keys %o', R.keys(envOptions))
+    debug('options not listed in defaults: %o', unknownKeys)
+    throw new Error(commaLists`
+      Found unknown snap-shot-it configuration options: ${unknownKeys}
+    `)
+  }
+
+  const merged = R.mergeAll([defaults, packageOptions, envOptions])
+  return merged
+}
+
+module.exports = {
+  getPackageConfigOptions,
+  defaults,
+  load,
+  isPruningDisabled,
+  mergeConfigOptions
+}

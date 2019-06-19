@@ -1,0 +1,15 @@
+{
+  "name": "test-updating",
+  "version": "1.0.0",
+  "description": "updating snapshots using env variable",
+  "main": "index.js",
+  "scripts": {
+    "test": "../node_modules/.bin/mocha 'specs/**/*.js'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "config": {
+    "snap-shot-it": {}
+  }
+}
