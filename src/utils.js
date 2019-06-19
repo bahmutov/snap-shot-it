@@ -50,6 +50,18 @@ const load = (cwd, modulePath) => {
   }
 }
 
+/**
+ * Returns true if one of the environment variables for
+ * updating snapshots is set.
+ */
+const isUpdatingSnapshots = () => {
+  return (
+    Boolean(process.env.SNAPSHOT_UPDATE) ||
+    Boolean(process.env.SNAP_SHOT_UPDATE) ||
+    Boolean(process.env.SNAPSHOTS_UPDATE)
+  )
+}
+
 const isPruningDisabled = () => {
   return (
     Boolean(process.env.SNAPSHOT_SKIP_PRUNING) ||
@@ -99,5 +111,6 @@ module.exports = {
   defaults,
   load,
   isPruningDisabled,
-  mergeConfigOptions
+  mergeConfigOptions,
+  isUpdatingSnapshots
 }

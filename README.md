@@ -115,6 +115,8 @@ You can update snapshot values
 SNAPSHOT_UPDATE=1 npm test
 ```
 
+You can use the following aliases: `SNAPSHOT_UPDATE=1`, `SNAPSHOTS_UPDATE=1` or `SNAP_SHOT_UPDATE=1`.
+
 ## Sorted snapshots
 
 If you want to sort saved snapshots alphabetically inside each snapshot file, run with

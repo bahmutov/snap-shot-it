@@ -207,7 +207,7 @@ function snapshot (value) {
     // gleb.bahmutov@gmail.com
     show: Boolean(process.env.SNAPSHOT_SHOW),
     dryRun: Boolean(process.env.SNAPSHOT_DRY),
-    update: Boolean(process.env.SNAPSHOT_UPDATE),
+    update: utils.isUpdatingSnapshots(),
     ci: Boolean(process.env.CI)
   }
   if ('SNAPSHOT_SORT' in process.env) {

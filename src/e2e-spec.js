@@ -474,4 +474,104 @@ describe('updating snapshots', () => {
       }
     })
   })
+
+  it('updates snapshot with SNAPSHOTS_UPDATE=1', function () {
+    this.timeout(10000)
+
+    // first, creates the snapshot
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: limitedEnv,
+      extendEnv: false
+    })
+
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        'my value': 42
+      }
+    })
+
+    // now run again, but update the snapshot value
+    const specFilename = join(tempFolder, 'specs', 'spec.js')
+    console.log('updating spec file', specFilename)
+
+    const newSpec = stripIndent`
+      const snapshot = require('../..')
+
+      /* eslint-env mocha */
+      it('has single value', () => {
+        snapshot('my value', 198)
+      })
+    `
+    fs.writeFileSync(specFilename, newSpec + '\n')
+
+    // run tests again and the snapshot should be updated
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: R.mergeRight(limitedEnv, { SNAPSHOTS_UPDATE: '1' }),
+      extendEnv: false
+    })
+
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        'my value': 198
+      }
+    })
+  })
+
+  it('updates snapshot with SNAP_SHOT_UPDATE=1', function () {
+    this.timeout(10000)
+
+    // first, creates the snapshot
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: limitedEnv,
+      extendEnv: false
+    })
+
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        'my value': 42
+      }
+    })
+
+    // now run again, but update the snapshot value
+    const specFilename = join(tempFolder, 'specs', 'spec.js')
+    console.log('updating spec file', specFilename)
+
+    const newSpec = stripIndent`
+      const snapshot = require('../..')
+
+      /* eslint-env mocha */
+      it('has single value', () => {
+        snapshot('my value', 198)
+      })
+    `
+    fs.writeFileSync(specFilename, newSpec + '\n')
+
+    // run tests again and the snapshot should be updated
+    execa.shellSync('npm test', {
+      cwd: tempFolder,
+      stdio: 'inherit',
+      // only use the limited environment keys
+      // without "CI=1" value
+      env: R.mergeRight(limitedEnv, { SNAP_SHOT_UPDATE: '1' }),
+      extendEnv: false
+    })
+
+    checkSnapshots(tempFolder, {
+      'spec.js': {
+        'my value': 198
+      }
+    })
+  })
 })
