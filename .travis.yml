@@ -15,6 +15,7 @@ install: npm ci
 
 script:
   - npm test
+  - npm run stop-only
   - DEBUG=snap-shot-it npm run test-two-specs
   - npm run ts-demo
   - npm run coffee-demo
