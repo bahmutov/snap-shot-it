@@ -4,6 +4,7 @@ const debug = require('debug')('snap-shot-it')
 const { core, restore, prune } = require('snap-shot-core')
 const { isDataDriven, dataDriven } = require('@bahmutov/data-driven')
 const { isNamedSnapshotArguments } = require('./named-snapshots')
+const { isChunkedSnapshotArguments } = require('./chunked-snapshots')
 const utils = require('./utils')
 const R = require('ramda')
 const { hasOnly, hasFailed } = require('has-only')
@@ -195,6 +196,18 @@ function snapshot (value) {
     savedTestTitle = arguments[0]
     value = arguments[1]
     debug('named snapshots "%s"', savedTestTitle)
+  } else if (isChunkedSnapshotArguments(arguments)) {
+    if (arguments[0].title) savedTestTitle = arguments[0].title
+    const chunk = arguments[0].chunk
+    if (chunk) {
+      const parsedPath = path.parse(currentTest.file)
+      currentTest.file = `${path.join(
+        parsedPath.dir,
+        parsedPath.name + '.' + chunk + parsedPath.ext
+      )}`
+      savedTestTitle += ` [${chunk}]`
+    }
+    value = arguments[1]
   } else {
     debug('snapshot value %j', value)
   }
