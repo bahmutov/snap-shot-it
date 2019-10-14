@@ -40,6 +40,8 @@ describe('duplicate key', () => {
           }
         )
       )
+      // it is fine to use the same snapshot name if passed an option
+      snapshot('diff values', 1, { allowSharedSnapshot: true })
     })
   })
 })

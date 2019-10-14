@@ -52,15 +52,18 @@ const isPruneInfo = is.schema({
   specFile: is.unemptyString,
   key: is.unemptyString,
   testTitle: is.unemptyString,
-  titleParts: is.strings
+  titleParts: is.strings,
+  allowDuplicate: is.bool
 })
 
 function addToPrune (info) {
   la(isPruneInfo(info), 'wrong info for pruning snapshot', info)
 
   const prevInfo = findExistingSnapshotKey(info)
-  if (prevInfo) {
-    debug('found duplicate snapshot name: %s', prevInfo.key)
+  if (prevInfo && !info.allowDuplicate) {
+    debug('add to prune: found duplicate snapshot name: %s', prevInfo.key)
+    debug('%o', info)
+
     throwDuplicateSnapshotKeyError(info, prevInfo)
   }
 
@@ -68,7 +71,7 @@ function addToPrune (info) {
 }
 
 const findExistingSnapshotKey = info => {
-  la(isPruneInfo(info), 'wrong snapshot info', info)
+  la(isPruneInfo(info), 'wrong snapshot prune info', info)
   return R.find(R.propEq('key', info.key))(seenSpecs)
 }
 
@@ -183,6 +186,7 @@ function snapshot (value) {
 
   // eslint-disable-next-line immutable/no-let
   let savedTestTitle = fullTitle
+  let snapshotOptions = {}
 
   if (isDataDriven(arguments)) {
     // value is a function
@@ -194,6 +198,8 @@ function snapshot (value) {
   } else if (isNamedSnapshotArguments(arguments)) {
     savedTestTitle = arguments[0]
     value = arguments[1]
+    // and there could be additional arguments for named snapshots
+    snapshotOptions = arguments[2] || {}
     debug('named snapshots "%s"', savedTestTitle)
   } else {
     debug('snapshot value %j', value)
@@ -290,6 +296,7 @@ function snapshot (value) {
     la('key' in coreResult, 'core result should have key', coreResult)
 
     const pruneInfo = R.assoc('key', coreResult.key, snapshotInfo)
+    pruneInfo.allowDuplicate = Boolean(snapshotOptions.allowSharedSnapshot)
     debug('prune info %o', pruneInfo)
 
     addToPrune(pruneInfo)
@@ -307,7 +314,9 @@ function snapshot (value) {
       // })
       //
       // check if we have a collision
+      // the code is duplicate from above to get just the key collision error
       const info = R.assoc('key', e.key, snapshotInfo)
+      info.allowDuplicate = Boolean(snapshotOptions.allowSharedSnapshot)
       debug('current snapshot info %o', info)
 
       const prevInfo = findExistingSnapshotKey(info)

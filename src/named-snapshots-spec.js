@@ -18,4 +18,22 @@ describe('named snapshots', () => {
       la(e.message.includes(mySnapshotName), e.message)
     }
   })
+
+  context('allows several tests to use same name', () => {
+    const snapshotName = 'shared snapshot'
+
+    // as long as the value is the same, these two tests
+    // should be allowed to use same snapshot name
+    const snapshotOptions = {
+      allowSharedSnapshot: true
+    }
+
+    it('test a', () => {
+      snapshot(snapshotName, 42, snapshotOptions)
+    })
+
+    it('test b', () => {
+      snapshot(snapshotName, 42, snapshotOptions)
+    })
+  })
 })

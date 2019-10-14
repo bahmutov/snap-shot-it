@@ -157,6 +157,16 @@ exports['my name'] = 42
 
 **Note** you should make sure that the name is unique per spec file.
 
+### Shared snapshot name
+
+If you **do want** to share a named snapshot value from several places or tests in the same spec file, you need to pass an option when calling `snapshot`. The the first snapshot is saved, and the next ones will just compare against the value.
+
+```js
+snapshot('my shared snapshot', value, { allowSharedSnapshot : true })
+// some time later
+snapshot('my shared snapshot', value, { allowSharedSnapshot : true })
+```
+
 ## Pruning
 
 If the test run is successful and executed _all_ tests (there was no `.only`) then snapshots without a test are pruned. You can skip pruning by running with environment variable
