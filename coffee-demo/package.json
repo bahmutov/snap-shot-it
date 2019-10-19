@@ -11,6 +11,6 @@
   "license": "ISC",
   "devDependencies": {
     "coffeescript": "2.4.1",
-    "mocha": "6.2.1"
+    "mocha": "6.2.2"
   }
 }
