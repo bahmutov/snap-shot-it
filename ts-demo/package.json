@@ -17,6 +17,6 @@
     "@types/node": "10.17.6",
     "mocha": "6.2.2",
     "ts-node": "8.5.4",
-    "typescript": "3.7.2"
+    "typescript": "3.7.3"
   }
 }
