@@ -1,0 +1,12 @@
+{
+  "name": "test-all-skipped",
+  "version": "1.0.0",
+  "description": "testing situation when all tests are skipped",
+  "main": "index.js",
+  "scripts": {
+    "test": "../node_modules/.bin/mocha 'specs/**/*.js'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

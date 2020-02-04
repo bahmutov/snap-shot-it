@@ -22,6 +22,8 @@ const relativeToCwd = path.relative.bind(null, cwd)
 debug('loading snap-shot-it')
 const EXTENSION = '.js'
 
+const noop = () => {}
+
 /**
  * all tests we have seen so we can prune later
  * for each seen spec we keep just an object
@@ -41,7 +43,7 @@ function _pruneSnapshots () {
 }
 
 // eslint-disable-next-line immutable/no-let
-let pruneSnapshots
+let pruneSnapshots = noop
 let pruneSnapshotsOptions
 
 /**
@@ -141,10 +143,10 @@ global.beforeEach(function () {
   /* eslint-disable immutable/no-this */
   if (hasOnly(this)) {
     debug('skip pruning snapshots because found .only')
-    pruneSnapshots = function noop () {}
+    pruneSnapshots = noop
   } else if (utils.isPruningDisabled()) {
     debug('skip pruning snapshots by env variable')
-    pruneSnapshots = function noop () {}
+    pruneSnapshots = noop
   } else {
     debug('will prune snapshots because no .only')
     pruneSnapshots = _pruneSnapshots
@@ -344,6 +346,11 @@ global.after(function () {
   /* eslint-disable immutable/no-this */
   if (!hasFailed(this)) {
     debug('the test run was a success')
+    la(
+      is.fn(pruneSnapshots),
+      'expected pruneSnapshots to be a function',
+      pruneSnapshots
+    )
     pruneSnapshots.call(this)
   } else {
     debug('not attempting to prune snapshots because the test run has failed')
