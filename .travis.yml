@@ -4,7 +4,7 @@ cache:
     - ~/.npm
 notifications:
   email: true
-node_js: '10'
+node_js: '12'
 
 stages:
   - 'Tests'
@@ -19,6 +19,7 @@ script:
   - DEBUG=snap-shot-it npm run test-two-specs
   - npm run ts-demo
   - npm run coffee-demo
+  - cd test-all-skipped && npm test
 
 jobs:
   fail_fast: true
