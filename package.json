@@ -107,7 +107,7 @@
     "pre-git": "3.17.1",
     "prettier-standard": "15.0.1",
     "semantic-release": "15.14.0",
-    "simple-commit-message": "4.0.13",
+    "simple-commit-message": "4.1.1",
     "standard": "12.0.1",
     "stop-only": "3.1.0"
   },
