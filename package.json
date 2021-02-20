@@ -73,6 +73,7 @@
     "license": "license-checker --production --onlyunknown --csv",
     "lint": "standard --verbose --fix src/*.js",
     "named-demo": "cd named-demo; mocha spec*.js",
+    "chunked-demo": "cd chunked-demo; mocha spec*.js",
     "ts-demo": "cd ts-demo; npm ci; npm test",
     "coffee-demo": "cd coffee-demo; npm ci; npm test",
     "postlint": "eslint --fix src/*.js",
