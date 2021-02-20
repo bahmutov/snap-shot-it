@@ -105,7 +105,7 @@
     "license-checker": "25.0.1",
     "mocha": "6.2.3",
     "pre-git": "3.17.1",
-    "prettier-standard": "15.0.1",
+    "prettier-standard": "16.4.1",
     "semantic-release": "15.14.0",
     "simple-commit-message": "4.1.1",
     "standard": "12.0.1",
