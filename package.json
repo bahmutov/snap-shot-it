@@ -98,7 +98,7 @@
     "dependency-check": "3.4.1",
     "deps-ok": "1.4.1",
     "dont-crack": "1.2.1",
-    "eslint": "5.16.0",
+    "eslint": "7.28.0",
     "eslint-plugin-immutable": "1.0.0",
     "folktale": "2.3.2",
     "git-issues": "1.3.1",
