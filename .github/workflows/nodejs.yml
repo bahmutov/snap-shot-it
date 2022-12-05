@@ -1,0 +1,35 @@
+name: Node CI
+
+on: 
+  push:
+    branches-ignore: ['v[0-9].[0-9].[0-9]']
+  pull_request:
+    branches-ignore: ['v[0-9].[0-9].[0-9]']
+
+jobs:
+  build:
+    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: [14, 16, 18]
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # tag=v3
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: Upgrade npm
+        run: npm i -g npm@latest
+      - name: npm install
+        uses: bahmutov/npm-install@cb39a46f27f14697fec763d60fb23ad347e2befa # tag=v1
+      - name: test
+        run: |
+          npm test
+          npm run stop-only
+          DEBUG=snap-shot-it npm run test-two-specs
+          npm run ts-demo
+          npm run coffee-demo
+          cd test-all-skipped && npm test
+
