@@ -15,7 +15,7 @@ jobs:
       - name: npm install
         uses: bahmutov/npm-install@cb39a46f27f14697fec763d60fb23ad347e2befa # tag=v1
       - name: Semantic Release
-        run: npm run semantic-release -d # dry run for now
+        run: npm run semantic-release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
