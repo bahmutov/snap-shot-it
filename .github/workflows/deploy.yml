@@ -1,6 +1,6 @@
 name: Deploy
 
-on: 
+on:
   push:
     branches: [master]
 
@@ -16,4 +16,6 @@ jobs:
         uses: bahmutov/npm-install@cb39a46f27f14697fec763d60fb23ad347e2befa # tag=v1
       - name: Semantic Release
         run: npm run semantic-release -d # dry run for now
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
