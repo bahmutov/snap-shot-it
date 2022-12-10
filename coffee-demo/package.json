@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "coffeescript": "2.5.1",
+    "coffeescript": "2.7.0",
     "mocha": "6.2.3"
   }
 }
