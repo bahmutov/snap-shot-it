@@ -13,9 +13,9 @@
     "snap-shot-it": ".."
   },
   "devDependencies": {
-    "@types/mocha": "5.2.7",
+    "@types/mocha": "10.0.6",
     "@types/node": "10.17.60",
-    "mocha": "6.2.3",
+    "mocha": "10.4.0",
     "ts-node": "10.9.1",
     "typescript": "3.9.10"
   }
